@@ -124,7 +124,12 @@ void send_telemetry_data(void) {
   telemetry_receive_byte = battery_voltage * 100;                                                     //Store the Battery Voltage Setting
   telemetry_send_byte = telemetry_receive_byte;                                            
   }
-  if (telemetry_loop_counter == 51)telemetry_send_byte = telemetry_receive_byte >> 8;        
+  if (telemetry_loop_counter == 51)telemetry_send_byte = telemetry_receive_byte >> 8;
+  if (telemetry_loop_counter == 52) {
+    telemetry_receive_byte = manual_takeoff_throttle;                                 //Store the manual take-off setting as it can change during the next loop.
+    telemetry_send_byte = telemetry_receive_byte;                                            //Send the first 8 bytes of the manual take-off setting variable.
+  }
+  if (telemetry_loop_counter == 53)telemetry_send_byte = telemetry_receive_byte >> 8;        //Send the last 8 bytes of the take-off throttle variable.
 
   // this is the last byte
   if (telemetry_loop_counter == telemetry_last_byte)telemetry_send_byte = check_byte;       //Send the check-byte (last visual number + 1)
@@ -224,5 +229,12 @@ void process_telemetry_data(void) {
       case 9:
         pid_d_gain_altitude = ymc32_fval;
       break;
-    }  
+      case 10:
+          if(manual_takeoff_throttle == 1500) {
+            manual_takeoff_throttle = 0;
+          } else {
+            manual_takeoff_throttle = 1500;
+          }
+      break;
+    }
 }

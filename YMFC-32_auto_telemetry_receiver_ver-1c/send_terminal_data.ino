@@ -47,6 +47,10 @@ void print_telemetry_data(void){
  Serial.print(takeoff_throttle);
  Serial.print(", ");
 
+ Serial.print("Manual Takeoff: ");
+ Serial.print(manual_takeoff);
+ Serial.print(", ");
+
  Serial.print("Loop Timer: ");
  Serial.print(loop_timer);
  Serial.print(", ");

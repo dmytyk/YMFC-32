@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0321ff8-f792-45b6-a55f-a56382f2a819" name="Changes" comment="Initial Commit">
+    <list default="true" id="e0321ff8-f792-45b6-a55f-a56382f2a819" name="Changes" comment="Update Notes, added Schematic.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/YMFC-32_auto_Flight_Controller_ver-1c.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/YMFC-32_auto_Flight_Controller_ver-1c.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/send_telemetry_data.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/send_telemetry_data.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/YMFC-32_auto_telemetry_receiver_ver-1c.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/YMFC-32_auto_telemetry_receiver_ver-1c.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/send_terminal_data.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/send_terminal_data.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/sendwebpage_data.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/sendwebpage_data.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/webpage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpage.html.gz" beforeDir="false" afterPath="$PROJECT_DIR$/webpage.html.gz" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,12 +27,15 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="27YvvCVZYhjHLJcsjMDhIRMdljQ" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -48,7 +59,18 @@
       <workItem from="1649614806232" duration="108000" />
       <workItem from="1649615066678" duration="20000" />
       <workItem from="1649622660913" duration="1155000" />
-      <workItem from="1649623867417" duration="2052000" />
+      <workItem from="1649623867417" duration="2805000" />
+      <workItem from="1649707568424" duration="100000" />
+      <workItem from="1649707708311" duration="1285000" />
+      <workItem from="1649714126653" duration="91000" />
+      <workItem from="1649714456452" duration="1026000" />
+      <workItem from="1649724848669" duration="4613000" />
+      <workItem from="1649730245246" duration="563000" />
+      <workItem from="1649730979807" duration="195000" />
+      <workItem from="1649733654706" duration="2386000" />
+      <workItem from="1649736441674" duration="253000" />
+      <workItem from="1649764001379" duration="1956000" />
+      <workItem from="1649766615597" duration="416000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1649624029814</created>
@@ -64,7 +86,21 @@
       <option name="project" value="LOCAL" />
       <updated>1649624184717</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Update notes.">
+      <created>1649625966628</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1649625966628</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Update Notes, added Schematic.">
+      <created>1649708541100</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1649708541100</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -82,7 +118,10 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Initial Commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial Commit" />
+    <MESSAGE value="Update notes." />
+    <MESSAGE value="Update Notes, added Schematic." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Notes, added Schematic." />
   </component>
 </project>

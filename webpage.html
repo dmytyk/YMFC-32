@@ -1,486 +1,605 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>YM32-Telemetry Interface</title>
-    <meta charset="utf-8">
-    <style>
-        body {
-            background-color: #E5E5FF;
-        }
-        p {
-            font-family: Arial, sans-serif;
-        }
-        div.flightstatus {
-            position: absolute;
-            top: 15px;
-            left: 10px;
-        }
-        div.gpsinfo {
-            position: absolute;
-            top: 295px;
-            left: 10px;
-        }
-        div.pidproll {
-            position: absolute;
-            top: 15px;
-            left: 340px;
-        }
-        div.pidiroll {
-            position: absolute;
-            top: 53px;
-            left: 340px;
-        }
-        div.piddroll {
-            position: absolute;
-            top: 90px;
-            left: 340px;
-        }
-        div.pidpyaw {
-            position: absolute;
-            top: 15px;
-            left: 444px;
-        }
-        div.pidiyaw {
-            position: absolute;
-            top: 53px;
-            left: 444px;
-        }
-        div.piddyaw {
-            position: absolute;
-            top: 90px;
-            left: 444px;
-        }
-        div.pidpalt {
-            position: absolute;
-            top: 15px;
-            left: 548px;
-        }
-        div.pidialt {
-            position: absolute;
-            top: 53px;
-            left: 548px;
-        }
-        div.piddalt {
-            position: absolute;
-            top: 90px;
-            left: 548px;
-        }
-        div.pidcontrol {
-            position: absolute;
-            top: 136px;
-            left: 340px;
-        }
-        div.usercontrol {
-            position: absolute;
-            top: 285px;
-            left: 340px;
-        }
-        div.wifistatus {
-            position: absolute;
-            top: 15px;
-            left: 664px;
-        }
-        div.systemstatus {
-            position: absolute;
-            top: 105px;
-            left: 664px;
-        }
-        .pidbuttonoff {
-            border: solid;
-            border-color: black;
-            background-color: Blue;
-            color: white;
-            padding: 5px 5px;
-            width: 100px;
-            font-size: 12px;
-            cursor: pointer;
-            text-align: center;
-        }
-        .pidbuttonon {
-            border: solid;
-            border-color: white;
-            background-color: Green;
-            color: white;
-            padding: 5px 5px;
-            width: 100px;
-            font-size: 12px;
-            cursor: pointer;
-            text-align: center;
-        }
-        .commandbutton {
-            border: solid;
-            background-color: Orange;
-            color: black;
-            padding: 2px 2px;
-            width: 80px;
-            font-size: 10px;
-            cursor: pointer;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-<div class="flightstatus">
-    <table style="background-color: #ffffff; border:2px black solid;">
-        <tr>
-            <td colspan="5" align="center" style="border:1px black solid; width:305px;"><b>Flight Status</b></td>
-        </tr>
-        <tr>
-            <th></th>
-            <th align="center">Current</th>
-            <th align="center">Min</th>
-            <th align="center">Max</th>
-            <th align="center">Units</th>
-        </tr>
-        <tr>
-            <td>Error Condition</td><td align="center" id="ER_Condition">0</td>
-        </tr>
-        <tr>
-            <td>Start State</td><td align="center" id="Start_State">0</td>
-        </tr>
-        <tr>
-            <td>Takeoff Throttle</td><td align="center" id="Takeoff_Throttle">0</td>
-        </tr>
-        <tr>
-            <td>Flight Mode</td><td align="center" id="Flight_Mode">0</td>
-        </tr>
-        <tr>
-            <td>Heading Lock</td><td align="center" id="Heading_Lock">0</td>
-        </tr>
-        <tr>
-            <td align="left">Roll Angle</td>
-            <td align="center" id="Roll_Angle">0</td>
-            <td align="center" id="Roll_Angle_Min">0</td>
-            <td align="center" id="Roll_Angle_Max">0</td>
-            <td align="right">(Degree)</td>
-        </tr>
-        <tr>
-            <td align="left">Pitch Angle</td>
-            <td align="center" id="Pitch_Angle">0</td>
-            <td align="center" id="Pitch_Angle_Min">0</td>
-            <td align="center" id="Pitch_Angle_Max">0</td>
-            <td align="right">(Degree)</td>
-        </tr>
-        <tr>
-            <td align="left">Altitude</td>
-            <td align="center" id="Altitude">0</td>
-            <td align="center" id="Altitude_Min">0</td>
-            <td align="center" id="Altitude_Max">0</td>
-            <td align="right">(Meters)</td>
-        </tr>
-        <tr>
-            <td align="left">Temperature</td>
-            <td align="center" id="Temperature">0</td>
-            <td align="center" id="Temperature_Min">0</td>
-            <td align="center" id="Temperature_Max">0</td>
-            <td align="right">(Degree)</td>
-        </tr>
-    </table>
-</div>
+    <head>
+        <title>YM32-Telemetry Interface</title>
+        <meta charset="utf-8">
+        <link rel="shortcut icon" href="#">
+        <style>
+            body {
+                background-color: #E5E5FF;
+            }
+            p {
+                font-family: Arial, sans-serif;
+            }
+            div.flightstatus {
+                position: absolute;
+                top: 15px;
+                left: 10px;
+            }
+            div.gpsinfo {
+                position: absolute;
+                top: 295px;
+                left: 10px;
+            }
+            div.pidproll {
+                position: absolute;
+                top: 15px;
+                left: 340px;
+            }
+            div.pidiroll {
+                position: absolute;
+                top: 53px;
+                left: 340px;
+            }
+            div.piddroll {
+                position: absolute;
+                top: 90px;
+                left: 340px;
+            }
+            div.pidpyaw {
+                position: absolute;
+                top: 15px;
+                left: 444px;
+            }
+            div.pidiyaw {
+                position: absolute;
+                top: 53px;
+                left: 444px;
+            }
+            div.piddyaw {
+                position: absolute;
+                top: 90px;
+                left: 444px;
+            }
+            div.pidpalt {
+                position: absolute;
+                top: 15px;
+                left: 548px;
+            }
+            div.pidialt {
+                position: absolute;
+                top: 53px;
+                left: 548px;
+            }
+            div.piddalt {
+                position: absolute;
+                top: 90px;
+                left: 548px;
+            }
+            div.pidcontrol {
+                position: absolute;
+                top: 136px;
+                left: 340px;
+            }
+            div.usercontrol {
+                position: absolute;
+                top: 285px;
+                left: 340px;
+            }
+            div.wifistatus {
+                position: absolute;
+                top: 15px;
+                left: 664px;
+            }
+            div.systemstatus {
+                position: absolute;
+                top: 105px;
+                left: 664px;
+            }
+            div.systemconfig {
+                position: absolute;
+                top: 105px;
+                left: 664px;
+            }
+            div.sysinfobutton {
+                position: absolute;
+                top: 285px;
+                left: 664px;
+            }
+            div.beepbutton {
+                position: absolute;
+                top: 325px;
+                left: 664px;
+            }
+            div.takeoffbutton {
+                position: absolute;
+                top: 285px;
+                left: 825px;
+            }
+            .pidbuttonoff {
+                border: solid;
+                border-color: black;
+                background-color: Blue;
+                color: white;
+                padding: 5px 5px;
+                width: 100px;
+                font-size: 12px;
+                cursor: pointer;
+                text-align: center;
+            }
+            .pidbuttonon {
+                border: solid;
+                border-color: white;
+                background-color: Green;
+                color: white;
+                padding: 5px 5px;
+                width: 100px;
+                font-size: 12px;
+                cursor: pointer;
+                text-align: center;
+            }
+            .commandbutton {
+                border: solid;
+                background-color: Orange;
+                color: black;
+                padding: 2px 2px;
+                width: 80px;
+                font-size: 10px;
+                cursor: pointer;
+                text-align: center;
+            }
+            .beepbuttonoff {
+                border: solid;
+                border-color: black;
+                background-color: Blue;
+                color: white;
+                padding: 5px 5px;
+                width: 150px;
+                font-size: 12px;
+                cursor: pointer;
+                text-align: center;
+            }
+            .toggletakeoff {
+                border: solid;
+                border-color: black;
+                background-color: Blue;
+                color: white;
+                padding: 5px 5px;
+                width: 150px;
+                font-size: 12px;
+                cursor: pointer;
+                text-align: center;
+            }
+            .togglesysinfo {
+                border: solid;
+                border-color: black;
+                background-color: Blue;
+                color: white;
+                padding: 5px 5px;
+                width: 150px;
+                font-size: 12px;
+                cursor: pointer;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="flightstatus">
+            <table style="background-color: #ffffff; border:2px black solid;">
+                <tr>
+                    <td colspan="5" align="center" style="border:1px black solid; width:305px;"><b>Flight Status</b></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th align="center">Current</th>
+                    <th align="center">Min</th>
+                    <th align="center">Max</th>
+                    <th align="center">Units</th>
+                </tr>
+                <tr>
+                    <td>Error Condition</td><td align="center" id="ER_Condition">0</td>
+                </tr>
+                <tr>
+                    <td>Start State</td><td align="center" id="Start_State">0</td>
+                </tr>
+                <tr>
+                    <td>Takeoff Throttle</td><td align="center" id="Takeoff_Throttle">0</td>
+                </tr>
+                <tr>
+                    <td>Flight Mode</td><td align="center" id="Flight_Mode">0</td>
+                </tr>
+                <tr>
+                    <td>Heading Lock</td><td align="center" id="Heading_Lock">0</td>
+                </tr>
+                <tr>
+                    <td align="left">Roll Angle</td>
+                    <td align="center" id="Roll_Angle">0</td>
+                    <td align="center" id="Roll_Angle_Min">0</td>
+                    <td align="center" id="Roll_Angle_Max">0</td>
+                    <td align="right">(Degree)</td>
+                </tr>
+                <tr>
+                    <td align="left">Pitch Angle</td>
+                    <td align="center" id="Pitch_Angle">0</td>
+                    <td align="center" id="Pitch_Angle_Min">0</td>
+                    <td align="center" id="Pitch_Angle_Max">0</td>
+                    <td align="right">(Degree)</td>
+                </tr>
+                <tr>
+                    <td align="left">Altitude</td>
+                    <td align="center" id="Altitude">0</td>
+                    <td align="center" id="Altitude_Min">0</td>
+                    <td align="center" id="Altitude_Max">0</td>
+                    <td align="right">(Meters)</td>
+                </tr>
+                <tr>
+                    <td align="left">Temperature</td>
+                    <td align="center" id="Temperature">0</td>
+                    <td align="center" id="Temperature_Min">0</td>
+                    <td align="center" id="Temperature_Max">0</td>
+                    <td align="right">(Degree)</td>
+                </tr>
+            </table>
+        </div>
 
-<div class="gpsinfo">
-    <table style="background-color: #ffffff; border:2px black solid;">
-        <tr>
-            <td colspan="5" align="center" style="border:1px black solid; width:305px;"><b>GPS Information</b></td>
-        </tr>
-        <tr>
-            <td>Number of Satellites</td><td align="center" id="Number_Of_Satellites">0</td>
-        </tr>
-        <tr>
-            <td>Fix Type</td><td align="center" id="Fix_Type">0</td>
-        </tr>
-        <tr>
-            <td>Actual Compass Heading</td><td align="center" id="Actual_Compass_Heading">0</td>
-        </tr>
-        <tr>
-            <td>Latitude</td><td align="center" id="Latitude">0</td>
-        </tr>
-        <tr>
-            <td>Longitude</td><td align="center" id="Longitude">0</td>
-        </tr>
-    </table>
-</div>
+        <div class="gpsinfo">
+            <table style="background-color: #ffffff; border:2px black solid;">
+                <tr>
+                    <td colspan="5" align="center" style="border:1px black solid; width:305px;"><b>GPS Information</b></td>
+                </tr>
+                <tr>
+                    <td>Number of Satellites</td><td align="center" id="Number_Of_Satellites">0</td>
+                </tr>
+                <tr>
+                    <td>Fix Type</td><td align="center" id="Fix_Type">0</td>
+                </tr>
+                <tr>
+                    <td>Actual Compass Heading</td><td align="center" id="Actual_Compass_Heading">0</td>
+                </tr>
+                <tr>
+                    <td>Latitude</td><td align="center" id="Latitude">0</td>
+                </tr>
+                <tr>
+                    <td>Longitude</td><td align="center" id="Longitude">0</td>
+                </tr>
+            </table>
+        </div>
 
-<div id="buttons" class="buttons">
-    <div id="pidproll" class="pidproll">
-        <button type="button" name="1" id="CRP" class="pidbuttonoff" onclick="setcommand(event, name, id)">PID-P Roll</button>
-    </div>
-    <div id="pidiroll" class="pidiroll">
-        <button type="button" name="2" id="CRI" class="pidbuttonoff" onclick="setcommand(event, name, id)">PID-I Roll</button>
-    </div>
-    <div id="piddroll" class="piddroll">
-        <button type="button" name="3" id="CRD" class="pidbuttonoff" onclick="setcommand(event, name, id)">PID-D Roll</button>
-    </div>
-    <div id="pidpyaw" class="pidpyaw">
-        <button type="button" name="4" id="CYP" class="pidbuttonoff" onclick="setcommand(event, name, id)">PID-P Yaw</button>
-    </div>
-    <div id="pidiyaw" class="pidiyaw">
-        <button type="button" name="5" id="CYI" class="pidbuttonoff" onclick="setcommand(event, name, id)">PID-I Yaw</button>
-    </div>
-    <div id="piddyaw" class="piddyaw">
-        <button type="button" name="6" id="CYD" class="pidbuttonoff" onclick="setcommand(event, name, id)">PID-D Yaw</button>
-    </div>
-    <div id="pidpalt" class="pidpalt">
-        <button type="button" name="7" id="CAP" class="pidbuttonoff" onclick="setcommand(event, name, id)">PID-P Alt</button>
-    </div>
-    <div id="pidialt" class="pidialt">
-        <button type="button" name="8" id="CAI" class="pidbuttonoff" onclick="setcommand(event, name, id)">PID-I Alt</button>
-    </div>
-    <div id="piddalt" class="piddalt">
-        <button type="button" name="9" id="CAD" class="pidbuttonoff" onclick="setcommand(event, name, id)">PID-D Alt</button>
-    </div>
-</div>
+        <div id="pidbuttons" class="pidbuttons">
+            <div id="pidproll" class="pidproll">
+                <button type="button" name="1" id="CRP" class="pidbuttonoff" onclick="setcommand(name, id)">PID-P Roll</button>
+            </div>
+            <div id="pidiroll" class="pidiroll">
+                <button type="button" name="2" id="CRI" class="pidbuttonoff" onclick="setcommand(name, id)">PID-I Roll</button>
+            </div>
+            <div id="piddroll" class="piddroll">
+                <button type="button" name="3" id="CRD" class="pidbuttonoff" onclick="setcommand(name, id)">PID-D Roll</button>
+            </div>
+            <div id="pidpyaw" class="pidpyaw">
+                <button type="button" name="4" id="CYP" class="pidbuttonoff" onclick="setcommand(name, id)">PID-P Yaw</button>
+            </div>
+            <div id="pidiyaw" class="pidiyaw">
+                <button type="button" name="5" id="CYI" class="pidbuttonoff" onclick="setcommand(name, id)">PID-I Yaw</button>
+            </div>
+            <div id="piddyaw" class="piddyaw">
+                <button type="button" name="6" id="CYD" class="pidbuttonoff" onclick="setcommand(name, id)">PID-D Yaw</button>
+            </div>
+            <div id="pidpalt" class="pidpalt">
+                <button type="button" name="7" id="CAP" class="pidbuttonoff" onclick="setcommand(name, id)">PID-P Alt</button>
+            </div>
+            <div id="pidialt" class="pidialt">
+                <button type="button" name="8" id="CAI" class="pidbuttonoff" onclick="setcommand(name, id)">PID-I Alt</button>
+            </div>
+            <div id="piddalt" class="piddalt">
+                <button type="button" name="9" id="CAD" class="pidbuttonoff" onclick="setcommand(name, id)">PID-D Alt</button>
+            </div>
+        </div>
 
-<div class="pidcontrol">
-    <table style="background-color: #ffffff; border:2px black solid;">
-        <tr>
-            <td colspan="2" align="center" style="border:1px black solid; width:300px;"><b>PID Control</b></td>
-        </tr>
-        <tr>
-            <td>Change</td>
-            <td><input type="text" id="pid" size="10">&nbsp;<button type="button" name="40" class="commandbutton" onclick="sendpidcommand(name)">Change</button></td>
-        </tr>
-        <tr>
-            <td colspan="3" align="center">Responses</td>
-        </tr>
-        <tr>
-            <td colspan="3" ><textarea name="pidmessages" id="pidmessages" class="pidmessages" rows="2" cols="36" readonly></textarea></td>
-        </tr>
-    </table>
-</div>
+        <div class="pidcontrol">
+            <table style="background-color: #ffffff; border:2px black solid;">
+                <tr>
+                    <td colspan="2" align="center" style="border:1px black solid; width:300px;"><b>PID Control</b></td>
+                </tr>
+                <tr>
+                    <td>Change</td>
+                    <td><input type="text" id="pid" size="10">&nbsp;<button type="button" name="40" class="commandbutton" onclick="sendpidcommand(name)">Change</button></td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="center">Responses</td>
+                </tr>
+                <tr>
+                    <td colspan="3" ><textarea name="pidmessages" id="pidmessages" class="pidmessages" rows="2" cols="36" readonly></textarea></td>
+                </tr>
+            </table>
+        </div>
 
-<div class="usercontrol">
-    <table style="background-color: #ffffff; border:2px black solid;">
-        <tr>
-            <td colspan="2" align="center" style="border:1px black solid; width:300px;"><b>User Control</b></td>
-        </tr>
-        <tr>
-            <td>Command</td>
-            <td><input type="text" id="user" size="14">&nbsp;<button type="button" name="30" class="commandbutton" onclick="sendusercommand(name)">Send</button></td>
-        </tr>
-        <tr>
-            <td colspan="3" align="center">Responses</td>
-        </tr>
-        <tr>
-            <td colspan="3" ><textarea name="servermessages" id="servermessages" class="servermessages" rows="4" cols="37" readonly></textarea></td>
-        </tr>
-    </table>
-</div>
+        <div class="usercontrol">
+            <table style="background-color: #ffffff; border:2px black solid;">
+                <tr>
+                    <td colspan="2" align="center" style="border:1px black solid; width:300px;"><b>User Control</b></td>
+                </tr>
+                <tr>
+                    <td>Command</td>
+                    <td><input type="text" id="user" size="14">&nbsp;<button type="button" name="30" class="commandbutton" onclick="sendusercommand(name)">Send</button></td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="center">Responses</td>
+                </tr>
+                <tr>
+                    <td colspan="3" ><textarea name="servermessages" id="servermessages" class="servermessages" rows="4" cols="37" readonly></textarea></td>
+                </tr>
+            </table>
+        </div>
 
-<div class="wifistatus">
-    <table style="background-color: #ffffff; border:2px black solid;">
-        <tr>
-            <td colspan="2" align="center" style="border:1px black solid; width:300px;"><b>WiFi Connection Status</b></td>
-        </tr>
-        <tr>
-            <td>Communication Link :</td><td id="SM_Communication"></td>
-        </tr>
-        <tr>
-            <td>Invalid Data from YMC32 :</td><td id="REC_Error">None</td>
-        </tr>
-    </table>
-</div>
+        <div class="wifistatus">
+            <table style="background-color: #ffffff; border:2px black solid;">
+                <tr>
+                    <td colspan="2" align="center" style="border:1px black solid; width:300px;"><b>WiFi Connection Status</b></td>
+                </tr>
+                <tr>
+                    <td>Communication Link :</td><td id="SM_Communication"></td>
+                </tr>
+                <tr>
+                    <td>Invalid Data from YMC32 :</td><td id="REC_Error">None</td>
+                </tr>
+            </table>
+        </div>
 
-<div class="systemstatus">
-    <table style="background-color: #ffffff; border:2px black solid;">
-        <tr>
-            <td colspan="5" align="center" style="border:1px black solid; width:300px;"><b>System Status</b></td>
-        </tr>
-        <tr>
-            <th></th>
-            <th align="center">Current</th>
-            <th align="center">Min</th>
-            <th align="center">Max</th>
-            <th align="center">Units</th>
-        </tr>
-        <tr>
-            <td align="left">Battery Status</td>
-            <td align="center" id="SM_Battery">0</td>
-            <td align="center" id="SM_Battery_Min">0</td>
-            <td align="center" id="SM_Battery_Max">0</td>
-            <td align="right">(Volts)</td>
-        </tr>
-        <tr>
-            <td align="left">Telemetry Time</td>
-            <td align="center" id="Telemetry_Time">0</td>
-            <td align="center" id="Telemetry_Time_Min">0</td>
-            <td align="center" id="Telemetry_Time_Max">0</td>
-            <td align="right">(Mills)</td>
-        </tr>
-        <tr>
-            <td align="left">Loop Time</td>
-            <td align="center" id="Loop_Time">0</td>
-            <td align="center" id="Loop_Time_Min">0</td>
-            <td align="center" id="Loop_Time_Max">0</td>
-            <td align="right">(Micros)</td>
-        </tr>
-    </table>
-</div>
+        <div id="systemstatus" class="systemstatus" style="display:block">
+            <table style="background-color: #ffffff; border:2px black solid;">
+                <tr>
+                    <td colspan="5" align="center" style="border:1px black solid; width:300px;"><b>System Status</b></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th align="center">Current</th>
+                    <th align="center">Min</th>
+                    <th align="center">Max</th>
+                    <th align="center">Units</th>
+                </tr>
+                <tr>
+                    <td align="left">Battery Status</td>
+                    <td align="center" id="SM_Battery">0</td>
+                    <td align="center" id="SM_Battery_Min">0</td>
+                    <td align="center" id="SM_Battery_Max">0</td>
+                    <td align="right">(Volts)</td>
+                </tr>
+                <tr>
+                    <td align="left">Telemetry Time</td>
+                    <td align="center" id="Telemetry_Time">0</td>
+                    <td align="center" id="Telemetry_Time_Min">0</td>
+                    <td align="center" id="Telemetry_Time_Max">0</td>
+                    <td align="right">(Mills)</td>
+                </tr>
+                <tr>
+                    <td align="left">Loop Time</td>
+                    <td align="center" id="Loop_Time">0</td>
+                    <td align="center" id="Loop_Time_Min">0</td>
+                    <td align="center" id="Loop_Time_Max">0</td>
+                    <td align="right">(Micros)</td>
+                </tr>
+            </table>
+        </div>
 
-<script>
-    var server = "ws://" + window.location.hostname + ":8080/";
-    var socket = null;
-    var called = false;
-    var buttonVal = 0;
-    var buttonId = 0;
+        <div id="systemconfig" class="systemconfig" style="display:none">
+            <table style="background-color: #ffffff; border:2px black solid;">
+                <tr>
+                    <td colspan="5" align="center" style="border:1px black solid; width:300px;"><b>System Configuration</b></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th align="center">Setting</th>
+                </tr>
+                <tr>
+                    <td align="left">Manual Takeoff</td>
+                    <td align="center" id="Manual_Takeoff"></td>
+                </tr>
+            </table>
+        </div>
 
-    function connectSocket() {
-        document.getElementById("SM_Communication").innerHTML = '<font color="red">Connecting</font>';
+        <div id="commandbuttons" class="commandbuttons">
+            <div id="beepbutton" class="beepbutton">
+                <button type="button" id="beep" class="beepbuttonoff">Test Beep</button>
+            </div>
+            <div id="takeoffbutton" class="takeoffbutton">
+                <button type="button" name="50" class="toggletakeoff" onclick="sendctrlcommand(name, 'TTC')">Toggle Manual Take Off</button>
+            </div>
+            <div id="sysinfobutton" class="sysinfobutton">
+                <button type="button" name="0" class="togglesysinfo" onclick="toggleinfo()">Toggle System Info</button>
+            </div>
+        </div>
 
-        socket = new WebSocket(server);
+        <script>
+            var server = "ws://" + window.location.hostname + ":8080/";
+            var socket = null;
+            var called = false;
+            var buttonVal = 0;
+            var buttonId = 0;
 
-        socket.onopen = function() {
-            called = false;
-            document.getElementById("SM_Communication").innerHTML = '<font color="green">Connected</font>';
-        }
+            document.getElementById("beep").addEventListener("click", beep);
 
-        socket.onmessage = function(m) {
-            var sentData = m.data.split(":");
-            if (sentData[0] == "E") {
-                document.getElementById("servermessages").innerHTML += m.data + "\n";
-                document.getElementById("servermessages").scrollTop = document.getElementById("servermessages").scrollHeight;
-            }  else if (sentData[0] == "R") {
-                document.getElementById("servermessages").innerHTML += m.data + "\n";
-                document.getElementById("servermessages").scrollTop = document.getElementById("servermessages").scrollHeight;
-            }  else if (sentData[0] == "P") {
-                document.getElementById("pidmessages").innerHTML += m.data + "\n";
-                document.getElementById("pidmessages").scrollTop = document.getElementById("pidmessages").scrollHeight;
-            }  else if (sentData[0] == "D") {
-                switch(sentData[1]) {
-                    case "B":
-                        document.getElementById("SM_Battery").innerHTML = sentData[2];
-                        document.getElementById("SM_Battery_Min").innerHTML = sentData[3];
-                        document.getElementById("SM_Battery_Max").innerHTML = sentData[4];
-                        break;
-                    case "E":
-                        document.getElementById("ER_Condition").innerHTML = sentData[2];
-                        break;
-                    case "S":
-                        document.getElementById("Start_State").innerHTML = sentData[2];
-                        break;
-                    case "K":
-                        document.getElementById("Takeoff_Throttle").innerHTML = sentData[2];
-                        break;
-                    case "F":
-                        document.getElementById("Flight_Mode").innerHTML = sentData[2];
-                        break;
-                    case "H":
-                        document.getElementById("Heading_Lock").innerHTML = sentData[2];
-                        break;
-                    case "U":
-                        document.getElementById("Number_Of_Satellites").innerHTML = sentData[2];
-                        break;
-                    case "V":
-                        document.getElementById("Fix_Type").innerHTML = sentData[2];
-                        break;
-                    case "W":
-                        document.getElementById("Actual_Compass_Heading").innerHTML = sentData[2];
-                        break;
-                    case "X":
-                        document.getElementById("Latitude").innerHTML = sentData[2];
-                        break;
-                    case "Y":
-                        document.getElementById("Longitude").innerHTML = sentData[2];
-                        break;
-                    case "T":
-                        document.getElementById("Telemetry_Time").innerHTML = sentData[2];
-                        document.getElementById("Telemetry_Time_Min").innerHTML = sentData[3];
-                        document.getElementById("Telemetry_Time_Max").innerHTML = sentData[4];
-                        break;
-                    case "L":
-                        document.getElementById("Loop_Time").innerHTML = sentData[2];
-                        document.getElementById("Loop_Time_Min").innerHTML = sentData[3];
-                        document.getElementById("Loop_Time_Max").innerHTML = sentData[4];
-                        break;
-                    case "R":
-                        document.getElementById("Roll_Angle").innerHTML = sentData[2];
-                        document.getElementById("Roll_Angle_Min").innerHTML = sentData[3];
-                        document.getElementById("Roll_Angle_Max").innerHTML = sentData[4];
-                        break;
-                    case "P":
-                        document.getElementById("Pitch_Angle").innerHTML = sentData[2];
-                        document.getElementById("Pitch_Angle_Min").innerHTML = sentData[3];
-                        document.getElementById("Pitch_Angle_Max").innerHTML = sentData[4];
-                        break;
-                    case "A":
-                        document.getElementById("Altitude").innerHTML = sentData[2];
-                        document.getElementById("Altitude_Min").innerHTML = sentData[3];
-                        document.getElementById("Altitude_Max").innerHTML = sentData[4];
-                        break;
-                    case "D":
-                        document.getElementById("Temperature").innerHTML = sentData[2];
-                        document.getElementById("Temperature_Min").innerHTML = sentData[3];
-                        document.getElementById("Temperature_Max").innerHTML = sentData[4];
-                        break;
-                    default:
-                        document.getElementById("REC_Error").innerHTML = sentData[1];
-                        break;
+            function connectSocket() {
+                document.getElementById("SM_Communication").innerHTML = '<font color="red">Connecting</font>';
+
+                socket = new WebSocket(server);
+
+                socket.onopen = function() {
+                    called = false;
+                    document.getElementById("SM_Communication").innerHTML = '<font color="green">Connected</font>';
+                }
+
+                socket.onmessage = function(m) {
+                    var sentData = m.data.split(":");
+                    if (sentData[0] == "E") {
+                        document.getElementById("servermessages").innerHTML += m.data + "\n";
+                        document.getElementById("servermessages").scrollTop = document.getElementById("servermessages").scrollHeight;
+                    }  else if (sentData[0] == "R") {
+                        document.getElementById("servermessages").innerHTML += m.data + "\n";
+                        document.getElementById("servermessages").scrollTop = document.getElementById("servermessages").scrollHeight;
+                    }  else if (sentData[0] == "P") {
+                        document.getElementById("pidmessages").innerHTML += m.data + "\n";
+                        document.getElementById("pidmessages").scrollTop = document.getElementById("pidmessages").scrollHeight;
+                    }  else if (sentData[0] == "D") {
+                        switch(sentData[1]) {
+                            case "B":
+                                document.getElementById("SM_Battery").innerHTML = sentData[2];
+                                document.getElementById("SM_Battery_Min").innerHTML = sentData[3];
+                                document.getElementById("SM_Battery_Max").innerHTML = sentData[4];
+                                let lowVoltage = parseFloat(sentData[2]);
+                                if(lowVoltage <= 10.5) {
+                                    beep();
+                                }
+                                if(lowVoltage <= 10.3) {
+                                    beep();
+                                    beep();
+                                }
+                                break;
+                            case "E":
+                                document.getElementById("ER_Condition").innerHTML = sentData[2];
+                                break;
+                            case "S":
+                                document.getElementById("Start_State").innerHTML = sentData[2];
+                                break;
+                            case "K":
+                                document.getElementById("Takeoff_Throttle").innerHTML = sentData[2];
+                                break;
+                            case "F":
+                                document.getElementById("Flight_Mode").innerHTML = sentData[2];
+                                break;
+                            case "H":
+                                document.getElementById("Heading_Lock").innerHTML = sentData[2];
+                                break;
+                            case "U":
+                                document.getElementById("Number_Of_Satellites").innerHTML = sentData[2];
+                                break;
+                            case "V":
+                                document.getElementById("Fix_Type").innerHTML = sentData[2];
+                                break;
+                            case "W":
+                                document.getElementById("Actual_Compass_Heading").innerHTML = sentData[2];
+                                break;
+                            case "X":
+                                document.getElementById("Latitude").innerHTML = sentData[2];
+                                break;
+                            case "Y":
+                                document.getElementById("Longitude").innerHTML = sentData[2];
+                                break;
+                            case "T":
+                                document.getElementById("Telemetry_Time").innerHTML = sentData[2];
+                                document.getElementById("Telemetry_Time_Min").innerHTML = sentData[3];
+                                document.getElementById("Telemetry_Time_Max").innerHTML = sentData[4];
+                                break;
+                            case "L":
+                                document.getElementById("Loop_Time").innerHTML = sentData[2];
+                                document.getElementById("Loop_Time_Min").innerHTML = sentData[3];
+                                document.getElementById("Loop_Time_Max").innerHTML = sentData[4];
+                                break;
+                            case "R":
+                                document.getElementById("Roll_Angle").innerHTML = sentData[2];
+                                document.getElementById("Roll_Angle_Min").innerHTML = sentData[3];
+                                document.getElementById("Roll_Angle_Max").innerHTML = sentData[4];
+                                break;
+                            case "P":
+                                document.getElementById("Pitch_Angle").innerHTML = sentData[2];
+                                document.getElementById("Pitch_Angle_Min").innerHTML = sentData[3];
+                                document.getElementById("Pitch_Angle_Max").innerHTML = sentData[4];
+                                break;
+                            case "A":
+                                document.getElementById("Altitude").innerHTML = sentData[2];
+                                document.getElementById("Altitude_Min").innerHTML = sentData[3];
+                                document.getElementById("Altitude_Max").innerHTML = sentData[4];
+                                break;
+                            case "D":
+                                document.getElementById("Temperature").innerHTML = sentData[2];
+                                document.getElementById("Temperature_Min").innerHTML = sentData[3];
+                                document.getElementById("Temperature_Max").innerHTML = sentData[4];
+                                break;
+                            case "0":
+                                document.getElementById("Manual_Takeoff").innerHTML = sentData[2];
+                                break;
+                            default:
+                                document.getElementById("REC_Error").innerHTML = sentData[1];
+                                break;
+                        }
+                    }
+                }
+
+                socket.onerror = function() {
+                    socket.close();
+                }
+
+                socket.onclose = function() {
+                    document.getElementById("SM_Communication").innerHTML = '<font color="orange">Disconnected</font>';
+                    setTimeout(connectSocket, 1000);
                 }
             }
-        }
 
-        socket.onerror = function() {
-            socket.close();
-        }
+            connectSocket();
 
-        socket.onclose = function() {
-            document.getElementById("SM_Communication").innerHTML = '<font color="orange">Disconnected</font>';
-            setTimeout(connectSocket, 1000);
-        }
-    }
+            window.addEventListener("beforeunload", function() {
+                socket.onclose = function() {};
+                socket.close();
+            });
 
-    connectSocket();
-
-    window.addEventListener("beforeunload", function() {
-        socket.onclose = function() {};
-        socket.close();
-    });
-
-    function setcommand(e, name, id) {
-        if(name == buttonVal) {
-            // if this button is active , turn it off
-            e.target.className = 'pidbuttonoff';
-            buttonVal = 0;
-            buttonId = 0;
-        } else {
-            // we are switching buttons
-            // first turn off button that is currently on
-            // turn on this button
-            // save it as the new button that is on
-            if(buttonId != 0) {
-                const el = document.getElementById(buttonId);
-                el.className = 'pidbuttonoff';
+            function setcommand(e, name, id) {
+                if(name == buttonVal) {
+                    // if this button is active , turn it off
+                    e.target.className = 'pidbuttonoff';
+                    buttonVal = 0;
+                    buttonId = 0;
+                } else {
+                    // we are switching pid buttons
+                    // first turn off button that is currently on
+                    // turn on this button
+                    // save it as the new button that is on
+                    if(buttonId != 0) {
+                        const el = document.getElementById(buttonId);
+                        el.className = 'pidbuttonoff';
+                    }
+                    e.target.className = 'pidbuttonon';
+                    buttonId = id;
+                    buttonVal = name;
+                }
+                //console.log(buttonVal);
             }
-            e.target.className = 'pidbuttonon';
-            buttonId = id;
-            buttonVal = name;
-        }
-        //console.log(buttonVal);
-    }
-    function sendpidcommand(name) {
-        if(buttonVal != 0) {
-            try {
-                let pidVal = document.getElementById("pid").value;
-                socket.send(name + ":" + buttonId + ":" + pidVal);
-                document.getElementById("pid").value = '';
-                console.log(name + ":" + buttonId + ":" + pidVal);
-            } catch (e) {
-                socket.onerror(e);
-            }
-        } else {
-            document.getElementById("pidmessages").innerHTML = "No PID Selected!" + "\n";
-        }
-    }
 
-    function sendusercommand(name) {
-        try {
-            let userVal = document.getElementById("user").value;
-            socket.send(name + ":" + userVal);
-            document.getElementById("user").value = '';
-        } catch (e) {
-            socket.onerror(e);
-        }
-    }
-</script>
-</body>
+            function sendpidcommand(name) {
+                if(buttonVal != 0) {
+                    try {
+                        let pidVal = document.getElementById("pid").value;
+                        socket.send(name + ":" + buttonId + ":" + pidVal);
+                        console.log(name + ":" + buttonId + ":" + pidVal);
+                    } catch (e) {
+                        socket.onerror(e);
+                    }
+                } else {
+                    document.getElementById("pidmessages").innerHTML = "No PID Selected!" + "\n";
+                }
+            }
+
+            function sendusercommand(name) {
+                try {
+                    let userVal = document.getElementById("user").value;
+                    socket.send(name + ":" + userVal);
+                } catch (e) {
+                    socket.onerror(e);
+                }
+            }
+
+            function sendctrlcommand(name, ctrlVal) {
+                try {
+                    socket.send(name + ":" + ctrlVal);
+                } catch (e) {
+                    socket.onerror(e);
+                }
+            }
+
+            function toggleinfo() {
+                let state = document.getElementById('systemstatus').style.display;
+                if (state == 'block') {
+                    document.getElementById('systemstatus').style.display = 'none';
+                    document.getElementById('systemconfig').style.display = 'block';
+                } else {
+                    document.getElementById('systemstatus').style.display = 'block';
+                    document.getElementById('systemconfig').style.display = 'none';
+                }
+            }
+
+            // play sound
+            function beep() {
+                var snd = new  Audio("data:audio/wav;base64,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qJrx4KOQjahZxWbcZgztj2c49nKmkId44S71j0c8eV9yDK6uPRzx5X18eDvjvQ6yKo9ZSS6l//8elePK/Lf//IInrOF/FvDoADYAGBMGb7FtErm5MXMlmPAJQVgWta7Zx2go+8xJ0UiCb8LHHdftWyLJE0QIAIsI+UbXu67dZMjmgDGCGl1H+vpF4NSDckSIkk7Vd+sxEhBQMRU8j/12UIRhzSaUdQ+rQU5kGeFxm+hb1oh6pWWmv3uvmReDl0UnvtapVaIzo1jZbf/pD6ElLqSX+rUmOQNpJFa/r+sa4e/pBlAABoAAAAA3CUgShLdGIxsY7AUABPRrgCABdDuQ5GC7DqPQCgbbJUAoRSUj+NIEig0YfyWUho1VBBBA//uQZB4ABZx5zfMakeAAAAmwAAAAF5F3P0w9GtAAACfAAAAAwLhMDmAYWMgVEG1U0FIGCBgXBXAtfMH10000EEEEEECUBYln03TTTdNBDZopopYvrTTdNa325mImNg3TTPV9q3pmY0xoO6bv3r00y+IDGid/9aaaZTGMuj9mpu9Mpio1dXrr5HERTZSmqU36A3CumzN/9Robv/Xx4v9ijkSRSNLQhAWumap82WRSBUqXStV/YcS+XVLnSS+WLDroqArFkMEsAS+eWmrUzrO0oEmE40RlMZ5+ODIkAyKAGUwZ3mVKmcamcJnMW26MRPgUw6j+LkhyHGVGYjSUUKNpuJUQoOIAyDvEyG8S5yfK6dhZc0Tx1KI/gviKL6qvvFs1+bWtaz58uUNnryq6kt5RzOCkPWlVqVX2a/EEBUdU1KrXLf40GoiiFXK///qpoiDXrOgqDR38JB0bw7SoL+ZB9o1RCkQjQ2CBYZKd/+VJxZRRZlqSkKiws0WFxUyCwsKiMy7hUVFhIaCrNQsKkTIsLivwKKigsj8XYlwt/WKi2N4d//uQRCSAAjURNIHpMZBGYiaQPSYyAAABLAAAAAAAACWAAAAApUF/Mg+0aohSIRobBAsMlO//Kk4soosy1JSFRYWaLC4qZBYWFRGZdwqKiwkNBVmoWFSJkWFxX4FFRQWR+LsS4W/rFRb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU=");
+                snd.play();
+            }
+        </script>
+    </body>
 </html>

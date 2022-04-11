@@ -20,7 +20,7 @@ TwoWire HWire (2, I2C_FAST_MODE);          //Initiate I2C port 2 at 400kHz.
 // Buffer Constant Both sides must Match
 #ifndef Receive_Buffer_Size
     // Receiver Buffer Size 
-    #define Receive_Buffer_Size   52
+    #define Receive_Buffer_Size   54
 #endif
 
 // Buffer Constant Both sides must Match
@@ -32,21 +32,25 @@ TwoWire HWire (2, I2C_FAST_MODE);          //Initiate I2C port 2 at 400kHz.
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //PID gain and limit settings
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-float pid_p_gain_yaw = 3.2;                //Gain setting for the pitch P-controller (default = 4.0).
-float pid_i_gain_yaw = 0.02;               //Gain setting for the pitch I-controller (default = 0.02).
-float pid_d_gain_yaw = 0.02;                //Gain setting for the pitch D-controller (default = 0.0).
+                                            //Yaw
+float pid_p_gain_yaw = 3.8;                //Gain setting for the pitch P-controller (default = 4.0) - Pre GPS - 3.2
+float pid_i_gain_yaw = 0.02;               //Gain setting for the pitch I-controller (default = 0.02) - Pre GPS - .02
+float pid_d_gain_yaw = 0.02;                //Gain setting for the pitch D-controller (default = 0.0) - Pre GPS - .02
 int pid_max_yaw = 400;                     //Maximum output of the PID-controller (+/-).
 
-float pid_p_gain_altitude = 2.1;           //Gain setting for the altitude P-controller (default = 1.4).
-float pid_i_gain_altitude = 0.4;           //Gain setting for the altitude I-controller (default = 0.2).
-float pid_d_gain_altitude = 1;          //Gain setting for the altitude D-controller (default = 0.75).
+                                           // Alititude
+float pid_p_gain_altitude = 1.8;           //Gain setting for the altitude P-controller (default = 1.4) - Pre GPS - 2.1
+float pid_i_gain_altitude = .25;           //Gain setting for the altitude I-controller (default = 0.2) - Pre GPS - 0.4
+float pid_d_gain_altitude = .9;          //Gain setting for the altitude D-controller (default = 0.75) - Pre GPS - 1
 int pid_max_altitude = 400;                //Maximum output of the PID-controller (+/-).
 
-float pid_p_gain_roll = 2.0;               //Gain setting for the pitch and roll P-controller (default = 1.3).
-float pid_i_gain_roll = 0.04;              //Gain setting for the pitch and roll I-controller (default = 0.04).
-float pid_d_gain_roll = 16.0;              //Gain setting for the pitch and roll D-controller (default = 18.0).
+                                            //Roll
+float pid_p_gain_roll = 1.3;               //Gain setting for the pitch and roll P-controller (default = 1.3) - Pre GPS - 2.0
+float pid_i_gain_roll = 0.04;              //Gain setting for the pitch and roll I-controller (default = 0.04) - Pre GPS - .04
+float pid_d_gain_roll = 18.0;              //Gain setting for the pitch and roll D-controller (default = 18.0) - Pre GPS - 16
 int pid_max_roll = 400;                    //Maximum output of the PID-controller (+/-).
 
+                                            //Pitch
 float pid_p_gain_pitch = pid_p_gain_roll;  //Gain setting for the pitch P-controller.
 float pid_i_gain_pitch = pid_i_gain_roll;  //Gain setting for the pitch I-controller.
 float pid_d_gain_pitch = pid_d_gain_roll;  //Gain setting for the pitch D-controller.
@@ -70,7 +74,7 @@ uint8_t MS5611_address = 0x77;             //The I2C address of the MS5611 barom
 uint8_t compass_address = 0x1E;            //The I2C address of the HMC5883L is 0x1E in hexadecimal form.
 uint8_t eeprom_address = 0x50;            //The I2C address of the EEPROM is 0x1E in hexadecimal form.
 
-float low_battery_warning = 10.6;          //Set the battery warning at 10.5V (default = 10.5V).
+float low_battery_warning = 10.4;          //Set the battery warning at 10.5V (default = 10.5V).
 
 #define STM32_board_LED PC13               //Change PC13 if the LED on the STM32 is connected to another output.
 
@@ -431,7 +435,7 @@ void loop() {
   //1410.1 = 112.81 / 0.08.
   battery_voltage = battery_voltage * 0.92 + ((float)analogRead(4) / 1410.1);
 
-  //Turn on the led if battery voltage is to low. Default setting is 10.5V
+  //Turn on the led if battery voltage is to low. Default setting is 10.4V
   if (battery_voltage > 6.0 && battery_voltage < low_battery_warning && error == 0)error = 1;
 
 

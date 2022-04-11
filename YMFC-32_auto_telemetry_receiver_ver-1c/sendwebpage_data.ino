@@ -51,4 +51,7 @@ void webpage_data(void){
 
     // Longitude
     webSocketServer.sendData("D:Y:" + String(l_lon_gps));
+
+    // Manual Takeoff Setting
+    webSocketServer.sendData("D:0:" + String(manual_takeoff));
 }
