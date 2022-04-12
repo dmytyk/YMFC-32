@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0321ff8-f792-45b6-a55f-a56382f2a819" name="Changes" comment="Update Notes, added Schematic.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/YMFC-32_auto_Flight_Controller_ver-1c.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/YMFC-32_auto_Flight_Controller_ver-1c.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/send_telemetry_data.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/send_telemetry_data.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/YMFC-32_auto_telemetry_receiver_ver-1c.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/YMFC-32_auto_telemetry_receiver_ver-1c.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/send_terminal_data.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/send_terminal_data.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/sendwebpage_data.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/sendwebpage_data.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/webpage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpage.html.gz" beforeDir="false" afterPath="$PROJECT_DIR$/webpage.html.gz" afterDir="false" />
-    </list>
+    <list default="true" id="e0321ff8-f792-45b6-a55f-a56382f2a819" name="Changes" comment="Update Notes, added Schematic." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,6 +11,7 @@
     <execution />
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -70,7 +61,7 @@
       <workItem from="1649733654706" duration="2386000" />
       <workItem from="1649736441674" duration="253000" />
       <workItem from="1649764001379" duration="1956000" />
-      <workItem from="1649766615597" duration="416000" />
+      <workItem from="1649766615597" duration="763000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1649624029814</created>
@@ -100,7 +91,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649708541100</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Update Notes, added Schematic.">
+      <created>1649767164531</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1649767164531</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -121,6 +119,7 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="Update notes." />
+    <MESSAGE value="Update Notes, Added Configuration display, Alarm Bell and Started Toggle buttons for system configuration parameters." />
     <MESSAGE value="Update Notes, added Schematic." />
     <option name="LAST_COMMIT_MESSAGE" value="Update Notes, added Schematic." />
   </component>
