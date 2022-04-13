@@ -198,6 +198,11 @@ int32_t gps_lat_error, gps_lon_error;
 int32_t gps_lat_error_previous, gps_lon_error_previous;
 uint32_t gps_watchdog_timer;
 
+//RDC (Remote Drop Control) - 1950 is the init value and 1320 is the open value (count between closed and open is 1950-1320 = 630)
+uint8_t rdc_start, rdc_delay;
+int16_t rdc_servoPos;
+int16_t rdc_loop_count;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Setup routine
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -223,7 +228,12 @@ void setup() {
   receive_buffer_counter = 0;
   receive_state = 1;
   check_byte = 0;
-  
+
+  rdc_start = 0;                                                //set the RDC vars
+  rdc_delay = 0;
+  rdc_loop_count = 1;
+  rdc_servoPos = 1950;
+
   timer_setup();                                                //Setup the timers for the receiver inputs and ESC's output.
   delay(50);                                                    //Give the timers some time to start.
   
@@ -331,6 +341,48 @@ void setup() {
 //Main program loop
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void loop() {
+  // the RDC servo wants a 1000us - 2000us pluse every 20,000us (50hz)
+  // the main loop runs at 4,000us so 4,000 * 5 = 20,0000
+  // time to open/close is 1950 (closed) - 1320 (open) = 630 delta / 10 increments = 63 units, so 4,000 * 5 * 63 = (1,260,000us = 1.26s)
+  // delay is 20,000us * 100 = 2 seconds
+  if(rdc_loop_count == 5) {
+    //RDC
+    switch (rdc_start) {
+      // state 1 , open the door
+      case 1:
+          if(rdc_servoPos > 1320) {
+            rdc_servoPos -= 10;
+          } else {
+            rdc_start = 2;
+            rdc_delay = 0;
+          }
+      break;
+      // state 2 = delay for 2 seconds
+      case 2:
+        //delay
+        rdc_delay++;
+        if(rdc_delay > 100) {
+            rdc_start = 3;
+        }
+      break;
+      // state 3 closed the door
+      case 3:
+          if(rdc_servoPos < 1950) {
+            rdc_servoPos += 10;
+          } else {
+            rdc_start = 0;
+          }
+      break;
+      default:
+      break;
+    }
+
+    TIMER3_BASE->CCR3 = rdc_servoPos;                                              // set the servo pulse time
+    TIMER3_BASE->CNT = 50000;  //(normally this is 5000 for a 250hz loop, I set it to simulate 50000 for a 50hz loop to run servos)
+    rdc_loop_count = 0;
+  }
+  rdc_loop_count++;
+
   //Some functions are only accessible when the quadcopter is off.
   if (start == 0) {
     //For compass calibration move both sticks to the top right.

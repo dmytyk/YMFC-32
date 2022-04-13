@@ -93,17 +93,22 @@
             }
             div.sysinfobutton {
                 position: absolute;
-                top: 285px;
+                top: 365px;
                 left: 664px;
             }
             div.beepbutton {
                 position: absolute;
-                top: 325px;
+                top: 405px;
                 left: 664px;
             }
             div.takeoffbutton {
                 position: absolute;
-                top: 285px;
+                top: 365px;
+                left: 825px;
+            }
+            div.rdcbutton {
+                position: absolute;
+                top: 405px;
                 left: 825px;
             }
             .pidbuttonoff {
@@ -138,6 +143,17 @@
                 cursor: pointer;
                 text-align: center;
             }
+            .togglesysinfo {
+                border: solid;
+                border-color: black;
+                background-color: Blue;
+                color: white;
+                padding: 5px 5px;
+                width: 150px;
+                font-size: 12px;
+                cursor: pointer;
+                text-align: center;
+            }
             .beepbuttonoff {
                 border: solid;
                 border-color: black;
@@ -160,7 +176,7 @@
                 cursor: pointer;
                 text-align: center;
             }
-            .togglesysinfo {
+            .sendrdc {
                 border: solid;
                 border-color: black;
                 background-color: Blue;
@@ -391,11 +407,14 @@
             <div id="beepbutton" class="beepbutton">
                 <button type="button" id="beep" class="beepbuttonoff">Test Beep</button>
             </div>
+            <div id="sysinfobutton" class="sysinfobutton">
+                <button type="button" name="0" class="togglesysinfo" onclick="toggleinfo()">Toggle System Info</button>
+            </div>
             <div id="takeoffbutton" class="takeoffbutton">
                 <button type="button" name="50" class="toggletakeoff" onclick="sendctrlcommand(name, 'TTC')">Toggle Manual Take Off</button>
             </div>
-            <div id="sysinfobutton" class="sysinfobutton">
-                <button type="button" name="0" class="togglesysinfo" onclick="toggleinfo()">Toggle System Info</button>
+            <div id="rdcbutton" class="rdcbutton">
+                <button type="button" name="50" class="sendrdc" onclick="sendctrlcommand(name, 'RDC')">Remote Drop Command</button>
             </div>
         </div>
 
