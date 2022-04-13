@@ -14,7 +14,7 @@ The telemetry receiver was moved from and Arduino UNO to an MRK1010.  The MRK101
 
 ![Telemetry Ground Station](/Images/Telemetry_Ground_Station.jpg)
 
-I added an 24LC256 IC2 EEPROM to save the calibration parameters (so they do not have to be reloaded every time I change the code), debug data, waypoints, modified PID parameters, etc.
+I added an 24LC256 IC2 EEPROM to save the calibration parameters (I don't have to reload them every time I change the code), debug data, waypoints, modified PID parameters, etc.
 
 ![EEPROM Storage](/Images/24LC256.jpg)
 
