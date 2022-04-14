@@ -550,10 +550,11 @@
                 socket.close();
             });
 
-            function setcommand(e, name, id) {
+            function setcommand(name, id) {
                 if(name == buttonVal) {
                     // if this button is active , turn it off
-                    e.target.className = 'pidbuttonoff';
+                    const el = document.getElementById(id);
+                    el.className = 'pidbuttonoff';
                     buttonVal = 0;
                     buttonId = 0;
                 } else {
@@ -565,7 +566,8 @@
                         const el = document.getElementById(buttonId);
                         el.className = 'pidbuttonoff';
                     }
-                    e.target.className = 'pidbuttonon';
+                    const el = document.getElementById(id);
+                    el.className = 'pidbuttonon';
                     buttonId = id;
                     buttonVal = name;
                 }
