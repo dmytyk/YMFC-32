@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0321ff8-f792-45b6-a55f-a56382f2a819" name="Changes" comment="Added Images">
-      <change afterPath="$PROJECT_DIR$/Images/YMC32-C_Schematic.png" afterDir="false" />
+    <list default="true" id="e0321ff8-f792-45b6-a55f-a56382f2a819" name="Changes" comment="Update Information.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Images/Radio_Telemetry_Combo.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Radio_Telemetry_Combo.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/YMC32-C_Schemetic.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Telemetry_Closeup.PNG" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Telemetry_Closeup.PNG" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/YMFC-32_auto_Flight_Controller_ver-1c.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/YMFC-32_auto_Flight_Controller_ver-1c.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/send_telemetry_data.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/send_telemetry_data.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/YMFC-32_auto_telemetry_receiver_ver-1c.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/YMFC-32_auto_telemetry_receiver_ver-1c.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/webpage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpage.html.gz" beforeDir="false" afterPath="$PROJECT_DIR$/webpage.html.gz" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +86,9 @@
       <workItem from="1649814573466" duration="65000" />
       <workItem from="1649822018614" duration="2038000" />
       <workItem from="1649874481303" duration="1944000" />
-      <workItem from="1649883059449" duration="5907000" />
+      <workItem from="1649883059449" duration="6839000" />
+      <workItem from="1649900847271" duration="1044000" />
+      <workItem from="1649906030420" duration="376000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1649624029814</created>
@@ -162,7 +167,21 @@
       <option name="project" value="LOCAL" />
       <updated>1649888373500</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Update Information.">
+      <created>1649890661997</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1649890661997</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Update Information.">
+      <created>1649890926376</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1649890926376</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,6 +207,7 @@
     <MESSAGE value="Update Notes, added RDC feature." />
     <MESSAGE value="Update RDC Button" />
     <MESSAGE value="Added Images" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Images" />
+    <MESSAGE value="Update Information." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update Information." />
   </component>
 </project>

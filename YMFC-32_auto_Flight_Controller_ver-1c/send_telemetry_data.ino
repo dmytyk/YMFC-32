@@ -235,6 +235,7 @@ void process_telemetry_data(void) {
           } else {
             manual_takeoff_throttle = 1500;
           }
+      break;
       case 99:
           rdc_start = 1;
       break;
