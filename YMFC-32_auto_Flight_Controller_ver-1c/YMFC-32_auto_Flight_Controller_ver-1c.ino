@@ -33,21 +33,21 @@ TwoWire HWire (2, I2C_FAST_MODE);          //Initiate I2C port 2 at 400kHz.
 //PID gain and limit settings
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                             //Yaw
-float pid_p_gain_yaw = 3.6;                //Gain setting for the pitch P-controller (default = 4.0) - Pre GPS - 3.2
+float pid_p_gain_yaw = 4.0;                //Gain setting for the pitch P-controller (default = 4.0) - Pre GPS - 3.2
 float pid_i_gain_yaw = 0.02;               //Gain setting for the pitch I-controller (default = 0.02) - Pre GPS - .02
-float pid_d_gain_yaw = 0.02;                //Gain setting for the pitch D-controller (default = 0.0) - Pre GPS - .02
+float pid_d_gain_yaw = 0.00;                //Gain setting for the pitch D-controller (default = 0.0) - Pre GPS - .02
 int pid_max_yaw = 400;                     //Maximum output of the PID-controller (+/-).
 
                                            // Alititude
-float pid_p_gain_altitude = 2.1;           //Gain setting for the altitude P-controller (default = 1.4) - Pre GPS - 2.1
-float pid_i_gain_altitude = .4;            //Gain setting for the altitude I-controller (default = 0.2) - Pre GPS - 0.4
-float pid_d_gain_altitude = 1;             //Gain setting for the altitude D-controller (default = 0.75) - Pre GPS - 1
+float pid_p_gain_altitude = 1.6;           //Gain setting for the altitude P-controller (default = 1.4) - Pre GPS - 2.1
+float pid_i_gain_altitude = .2;            //Gain setting for the altitude I-controller (default = 0.2) - Pre GPS - 0.4
+float pid_d_gain_altitude = .85;             //Gain setting for the altitude D-controller (default = 0.75) - Pre GPS - 1
 int pid_max_altitude = 400;                //Maximum output of the PID-controller (+/-).
 
                                             //Roll
-float pid_p_gain_roll = 1.6;               //Gain setting for the pitch and roll P-controller (default = 1.3) - Pre GPS - 2.0
+float pid_p_gain_roll = 1.3;               //Gain setting for the pitch and roll P-controller (default = 1.3) - Pre GPS - 2.0
 float pid_i_gain_roll = 0.04;              //Gain setting for the pitch and roll I-controller (default = 0.04) - Pre GPS - .04
-float pid_d_gain_roll = 17.0;              //Gain setting for the pitch and roll D-controller (default = 18.0) - Pre GPS - 16
+float pid_d_gain_roll = 18.0;              //Gain setting for the pitch and roll D-controller (default = 18.0) - Pre GPS - 16
 int pid_max_roll = 400;                    //Maximum output of the PID-controller (+/-).
 
                                             //Pitch
@@ -61,8 +61,8 @@ int pid_max_pitch = pid_max_roll;          //Maximum output of the PID-controlle
 //Increase this value when the quadcopter drops due to a lower battery voltage during a non altitude hold flight.
 float battery_compensation = 40.0;         
 
-float gps_p_gain = 2.8;                    //Gain setting for the GPS P-controller (default = 2.7).
-float gps_d_gain = 6.6;                    //Gain setting for the GPS D-controller (default = 6.5).
+float gps_p_gain = 2.7;                    //Gain setting for the GPS P-controller (default = 2.7).
+float gps_d_gain = 6.5;                    //Gain setting for the GPS D-controller (default = 6.5).
 
 float declination = 2.0;                   //Set the declination between the magnetic and geographic north.
 
@@ -74,7 +74,7 @@ uint8_t MS5611_address = 0x77;             //The I2C address of the MS5611 barom
 uint8_t compass_address = 0x1E;            //The I2C address of the HMC5883L is 0x1E in hexadecimal form.
 uint8_t eeprom_address = 0x50;            //The I2C address of the EEPROM is 0x1E in hexadecimal form.
 
-float low_battery_warning = 10.4;          //Set the battery warning at 10.5V (default = 10.5V).
+float low_battery_warning = 10.5;          //Set the battery warning at 10.5V (default = 10.5V).
 
 #define STM32_board_LED PC13               //Change PC13 if the LED on the STM32 is connected to another output.
 

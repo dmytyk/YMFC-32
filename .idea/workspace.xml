@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0321ff8-f792-45b6-a55f-a56382f2a819" name="Changes" comment="Update position of control buttons.">
+    <list default="true" id="e0321ff8-f792-45b6-a55f-a56382f2a819" name="Changes" comment="Removed event from javascript">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/YMFC-32_auto_Flight_Controller_ver-1c.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/YMFC-32_auto_Flight_Controller_ver-1c.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/calibration.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/calibration.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/timer_setup.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/timer_setup.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/YMFC-32_auto_telemetry_receiver_ver-1c.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/YMFC-32_auto_telemetry_receiver_ver-1c.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_test_program_ver-1c/YMFC-32_auto_test_program_ver-1c.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_test_program_ver-1c/YMFC-32_auto_test_program_ver-1c.ino" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/webpage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpage.html.gz" beforeDir="false" afterPath="$PROJECT_DIR$/webpage.html.gz" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,6 +90,12 @@
       <workItem from="1649900847271" duration="1044000" />
       <workItem from="1649906030420" duration="529000" />
       <workItem from="1649910481700" duration="605000" />
+      <workItem from="1649911583426" duration="86000" />
+      <workItem from="1649982022431" duration="542000" />
+      <workItem from="1649983716080" duration="1496000" />
+      <workItem from="1649985359058" duration="29000" />
+      <workItem from="1649985914489" duration="2384000" />
+      <workItem from="1649988800745" duration="1093000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1649624029814</created>
@@ -183,7 +195,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649906462785</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Removed event from javascript">
+      <created>1649911622988</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1649911622988</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -211,6 +230,7 @@
     <MESSAGE value="Added Images" />
     <MESSAGE value="Update Information." />
     <MESSAGE value="Update position of control buttons." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update position of control buttons." />
+    <MESSAGE value="Removed event from javascript" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed event from javascript" />
   </component>
 </project>

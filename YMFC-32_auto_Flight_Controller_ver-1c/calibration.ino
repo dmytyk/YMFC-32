@@ -64,18 +64,25 @@ void calibrate_level(void) {
   acc_pitch_cal_value = 0;
   acc_roll_cal_value = 0;
 
-  for (error = 0; error < 45; error ++) {
+  for (error = 0; error < 40; error ++) {
     send_telemetry_data();                                                   //Send telemetry data to the ground station.
     gyro_signalen();
     acc_pitch_cal_value += acc_y;
     acc_roll_cal_value += acc_x;
-    if (acc_y > 700 || acc_y < -700)error = 80;
-    if (acc_x > 700 || acc_x < -700)error = 80;
+    if (acc_y > 800 || acc_y < -800)error = 80;
+    if (acc_x > 800 || acc_x < -800)error = 80;
     delayMicroseconds(3700);
+//    Serial.print("acc_y: " + String(acc_y));
+//    Serial.print(" , ");
+//    Serial.print("acc_x: " + String(acc_x));
+//    Serial.print(" , ");
+//    Serial.print("acc_pitch_cal_value: " + String(acc_pitch_cal_value));
+//    Serial.print(" , ");
+//    Serial.println("acc_roll_cal_value: " + String(acc_roll_cal_value));
   }
 
-  acc_pitch_cal_value /= 45;
-  acc_roll_cal_value /= 45;
+  acc_pitch_cal_value /= 40;
+  acc_roll_cal_value /= 40;
 
   red_led(LOW);
   if (error < 80) {

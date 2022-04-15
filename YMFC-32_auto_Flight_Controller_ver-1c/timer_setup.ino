@@ -61,4 +61,3 @@ void timer_setup(void) {
   pinMode(PB8, PWM);
   pinMode(PB9, PWM);
 }
-
