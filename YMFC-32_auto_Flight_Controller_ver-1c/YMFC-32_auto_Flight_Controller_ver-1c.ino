@@ -30,7 +30,7 @@ TwoWire HWire (2, I2C_FAST_MODE);          //Initiate I2C port 2 at 400kHz.
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//PID gain and limit settings
+//PID gain and limit settings  - these are defaults if the EEPROM data is not available
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                             //Yaw
 float pid_p_gain_yaw = 4.0;                //Gain setting for the pitch P-controller (default = 4.0) - Pre GPS - 3.2
@@ -39,9 +39,9 @@ float pid_d_gain_yaw = 0.00;                //Gain setting for the pitch D-contr
 int pid_max_yaw = 400;                     //Maximum output of the PID-controller (+/-).
 
                                            // Alititude
-float pid_p_gain_altitude = 1.6;           //Gain setting for the altitude P-controller (default = 1.4) - Pre GPS - 2.1
-float pid_i_gain_altitude = .2;            //Gain setting for the altitude I-controller (default = 0.2) - Pre GPS - 0.4
-float pid_d_gain_altitude = .85;             //Gain setting for the altitude D-controller (default = 0.75) - Pre GPS - 1
+float pid_p_gain_altitude = 1.8;           //Gain setting for the altitude P-controller (default = 1.4) - Pre GPS - 2.1
+float pid_i_gain_altitude = .25;            //Gain setting for the altitude I-controller (default = 0.2) - Pre GPS - 0.4
+float pid_d_gain_altitude = .9;             //Gain setting for the altitude D-controller (default = 0.75) - Pre GPS - 1
 int pid_max_altitude = 400;                //Maximum output of the PID-controller (+/-).
 
                                             //Roll
@@ -105,12 +105,12 @@ uint8_t debug_byte;
 // to ground station
 uint8_t telemetry_last_byte = Receive_Buffer_Size;                                                               // This is the last byte of the telemetry buffer, easier to keep track of (RECEIVER BYT MUST Match)
 uint8_t telemetry_send_byte, telemetry_loop_counter;
+uint32_t telemetry_save_byte;
 
 // telemetry receive
 // from ground station
 uint8_t rec_telemetry_last_byte = Send_Buffer_Size;                                                                    //this is the last byte of the receivers telemetry buffer they have to match the YMC-32's TX
-uint8_t receive_buffer[Send_Buffer_Size + 1], receive_buffer_counter, receive_byte_previous, receive_byte, receive_state;  // rec_telemetry_last_byte + 1 
-uint32_t telemetry_receive_byte;
+uint8_t receive_buffer[Send_Buffer_Size + 1], receive_buffer_counter, receive_byte_previous, receive_byte, receive_state;  // rec_telemetry_last_byte + 1
 
 // YMC-32 commands
 uint8_t ymc32_command;
@@ -198,6 +198,11 @@ int32_t gps_lat_error, gps_lon_error;
 int32_t gps_lat_error_previous, gps_lon_error_previous;
 uint32_t gps_watchdog_timer;
 
+//EEPROM
+uint8_t pid_save;
+uint8_t eeprom_write_byte;
+uint32_t eeprom_save_byte;
+
 //RDC (Remote Drop Control) - 1950 is the init value and 1320 is the open value (count between closed and open is 1950-1320 = 630)
 uint8_t rdc_start, rdc_delay;
 int16_t rdc_servoPos;
@@ -221,7 +226,7 @@ void setup() {
   green_led(LOW);                                               //Set output PB3 low.
   red_led(HIGH);                                                //Set output PB4 high.
 
-  pinMode(PB0, OUTPUT);                                         //Set PB0 as output for telemetry TX.
+  pinMode(PB0, OUTPUT);                                         //Set PB0 as output RDC
 
   Serial.begin(9600);                                           //Set the serial output to 9600 for the telemetry link
   delay(350);                                                   //Give the serial port some time to start to prevent data loss.
@@ -234,11 +239,36 @@ void setup() {
   rdc_loop_count = 1;
   rdc_servoPos = 1950;
 
+  pid_save = 0;                                                 //set the PID vars
+
   timer_setup();                                                //Setup the timers for the receiver inputs and ESC's output.
   delay(50);                                                    //Give the timers some time to start.
   
   HWire.begin(); 
-  delay(50);                                                    //Give the timers some time to start.
+  delay(100);                                                    //Give the timers some time to start.
+
+  //initial PID save
+//  savePIDY();
+//  savePIDA();
+//  savePIDR();
+
+  // load the Saved PID settings
+  //Yaw - PID
+  pid_p_gain_yaw = (float)(readEEPROM(eeprom_address, 16) | readEEPROM(eeprom_address, 17) << 8)/1000;
+  pid_i_gain_yaw = (float)(readEEPROM(eeprom_address, 18) | readEEPROM(eeprom_address, 19) << 8)/1000;
+  pid_d_gain_yaw = (float)(readEEPROM(eeprom_address, 20) | readEEPROM(eeprom_address, 21) << 8)/1000;
+  //Altitude - PID
+  pid_p_gain_altitude = (float)(readEEPROM(eeprom_address, 22) | readEEPROM(eeprom_address, 23) << 8)/1000;
+  pid_i_gain_altitude = (float)(readEEPROM(eeprom_address, 24) | readEEPROM(eeprom_address, 25) << 8)/1000;
+  pid_d_gain_altitude = (float)(readEEPROM(eeprom_address, 26) | readEEPROM(eeprom_address, 27) << 8)/1000;
+  //Roll - PID
+  pid_p_gain_roll = (float)(readEEPROM(eeprom_address, 28) | readEEPROM(eeprom_address, 29) << 8)/1000;
+  pid_i_gain_roll = (float)(readEEPROM(eeprom_address, 30) | readEEPROM(eeprom_address, 31) << 8)/1000;
+  pid_d_gain_roll = (float)(readEEPROM(eeprom_address, 32) | readEEPROM(eeprom_address, 33) << 8)/1000;
+  //Pitch - PID
+  pid_p_gain_pitch = pid_p_gain_roll;  //Gain setting for the pitch P-controller.
+  pid_i_gain_pitch = pid_i_gain_roll;  //Gain setting for the pitch I-controller.
+  pid_d_gain_pitch = pid_d_gain_roll;  //Gain setting for the pitch D-controller.
 
   gps_setup();                                                  //Set the baud rate and output refreshrate of the GPS module.
 
@@ -248,7 +278,7 @@ void setup() {
   while (error != 0) {                                          //Stay in this loop because the MPU-6050 did not responde.
     error = 1;                                                  //Set the error status to 1.
     error_signal();                                             //Show the error via the red LED.
-    delay(4);                                                   //Simulate a 250Hz refresch rate as like the main loop.
+    delay(4);                                                   //Simulate a 250Hz refresh rate as like the main loop.
   }
 
   //Check if the compass is responding.
@@ -257,7 +287,7 @@ void setup() {
   while (error != 0) {                                          //Stay in this loop because the HMC5883L did not responde.
     error = 2;                                                  //Set the error status to 2.
     error_signal();                                             //Show the error via the red LED.
-    delay(4);                                                   //Simulate a 250Hz refresch rate as like the main loop.
+    delay(4);                                                   //Simulate a 250Hz refresh rate as like the main loop.
   }
 
   //Check if the MS5611 barometer is responding.
@@ -266,7 +296,7 @@ void setup() {
   while (error != 0) {                                          //Stay in this loop because the MS5611 did not responde.
     error = 3;                                                  //Set the error status to 2.
     error_signal();                                             //Show the error via the red LED.
-    delay(4);                                                   //Simulate a 250Hz refresch rate as like the main loop.
+    delay(4);                                                   //Simulate a 250Hz refresh rate as like the main loop.
   }
 
   gyro_setup();                                                 //Initiallize the gyro and set the correct registers.
@@ -279,7 +309,7 @@ void setup() {
     if (count_var % 125 == 0) {                                 //Every 125 loops (500ms).
       digitalWrite(PB4, !digitalRead(PB4));                     //Change the led status.
     }
-    delay(4);                                                   //Simulate a 250Hz refresch rate as like the main loop.
+    delay(4);                                                   //Simulate a 250Hz refresh rate as like the main loop.
   }
   cal_int = 0;
   calibrate_gyro();                                             //Calibrate the gyro offset.
@@ -389,6 +419,13 @@ void loop() {
     if (channel_1 > 1900 && channel_2 < 1100 && channel_3 > 1900 && channel_4 > 1900)calibrate_compass();
     //Level calibration move both sticks to the top left.
     if (channel_1 < 1100 && channel_2 < 1100 && channel_3 > 1900 && channel_4 < 1100)calibrate_level();
+    //See if we have been requested to save the PID settings
+    if(pid_save == 1) {
+      savePIDY();
+      savePIDA();
+      savePIDR();
+      pid_save = 0;
+    }
   }
 
   heading_lock = 0;

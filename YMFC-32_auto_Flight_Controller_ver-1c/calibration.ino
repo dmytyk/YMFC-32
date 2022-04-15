@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//In this part the level and compass calibration procedres are handled.
+//In this part the level and compass calibration procedures are handled.
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void calibrate_compass(void) {
   compass_calibration_on = 1;                                                //Set the compass_calibration_on variable to disable the adjustment of the raw compass values.
@@ -19,19 +19,8 @@ void calibrate_compass(void) {
   }
   compass_calibration_on = 0;                                                //Reset the compass_calibration_on variable.
 
-  //The maximum and minimum values are needed for the next startup and are stored
-  writeEEPROM(eeprom_address, 0, compass_cal_values[0] & 0b11111111);
-  writeEEPROM(eeprom_address, 1, compass_cal_values[0] >> 8);    
-  writeEEPROM(eeprom_address, 2, compass_cal_values[1] & 0b11111111);
-  writeEEPROM(eeprom_address, 3, compass_cal_values[1] >> 8);    
-  writeEEPROM(eeprom_address, 4, compass_cal_values[2] & 0b11111111);
-  writeEEPROM(eeprom_address, 5, compass_cal_values[2] >> 8);    
-  writeEEPROM(eeprom_address, 6, compass_cal_values[3] & 0b11111111);
-  writeEEPROM(eeprom_address, 7, compass_cal_values[3] >> 8);    
-  writeEEPROM(eeprom_address, 8, compass_cal_values[4] & 0b11111111);
-  writeEEPROM(eeprom_address, 9, compass_cal_values[4] >> 8);    
-  writeEEPROM(eeprom_address, 10, compass_cal_values[5] & 0b11111111);
-  writeEEPROM(eeprom_address, 11, compass_cal_values[5] >> 8);   
+    //The maximum and minimum values are needed for the next startup they are stored in the EEPROM
+    saveCalibration();
 
   setup_compass();                                                           //Initiallize the compass and set the correct registers.
   read_compass();                                                            //Read and calculate the compass data.
@@ -44,12 +33,10 @@ void calibrate_compass(void) {
     green_led(LOW);
     delay(50);
   }
-
   error = 0;
 
   loop_timer = micros();                                                     //Set the timer for the next loop.
 }
-
 
 void calibrate_level(void) {
   level_calibration_on = 1;
@@ -72,6 +59,7 @@ void calibrate_level(void) {
     if (acc_y > 800 || acc_y < -800)error = 80;
     if (acc_x > 800 || acc_x < -800)error = 80;
     delayMicroseconds(3700);
+//    // debug mode
 //    Serial.print("acc_y: " + String(acc_y));
 //    Serial.print(" , ");
 //    Serial.print("acc_x: " + String(acc_x));
@@ -86,11 +74,8 @@ void calibrate_level(void) {
 
   red_led(LOW);
   if (error < 80) {
-    writeEEPROM(eeprom_address, 12, acc_pitch_cal_value & 0b11111111);
-    writeEEPROM(eeprom_address, 13, acc_pitch_cal_value >> 8); 
-    writeEEPROM(eeprom_address, 14, acc_roll_cal_value & 0b11111111);
-    writeEEPROM(eeprom_address, 15, acc_roll_cal_value >> 8); 
-    //EEPROM.write(0x10 + error, compass_cal_values[error]);
+    //The acc values for the next startup they are stored in the EEPROM
+    saveCompass();
     
     for (error = 0; error < 15; error ++) {
       green_led(HIGH);
@@ -99,8 +84,9 @@ void calibrate_level(void) {
       delay(50);
     }
     error = 0;
+  }  else {
+    error = 3;
   }
-  else error = 3;
   
   level_calibration_on = 0;
   gyro_signalen();

@@ -93,17 +93,22 @@
             }
             div.sysinfobutton {
                 position: absolute;
-                top: 325px;
+                top: 280px;
+                left: 664px;
+            }
+            div.takeoffbutton {
+                position: absolute;
+                top: 322px;
+                left: 664px;
+            }
+            div.savepidbutton {
+                position: absolute;
+                top: 365px;
                 left: 664px;
             }
             div.beepbutton {
                 position: absolute;
                 top: 405px;
-                left: 664px;
-            }
-            div.takeoffbutton {
-                position: absolute;
-                top: 365px;
                 left: 664px;
             }
             div.rdcbutton {
@@ -154,7 +159,7 @@
                 cursor: pointer;
                 text-align: center;
             }
-            .beepbuttonoff {
+            .toggletakeoff {
                 border: solid;
                 border-color: black;
                 background-color: Blue;
@@ -165,7 +170,29 @@
                 cursor: pointer;
                 text-align: center;
             }
-            .toggletakeoff {
+            .savepidoff {
+                border: solid;
+                border-color: black;
+                background-color: Red;
+                color: white;
+                padding: 5px 5px;
+                width: 150px;
+                font-size: 12px;
+                cursor: pointer;
+                text-align: center;
+            }
+            .savepidon {
+                border: solid;
+                border-color: black;
+                background-color: Green;
+                color: white;
+                padding: 5px 5px;
+                width: 150px;
+                font-size: 12px;
+                cursor: pointer;
+                text-align: center;
+            }
+            .beepbuttonoff {
                 border: solid;
                 border-color: black;
                 background-color: Blue;
@@ -413,6 +440,9 @@
             <div id="takeoffbutton" class="takeoffbutton">
                 <button type="button" name="50" class="toggletakeoff" onclick="sendctrlcommand(name, 'TTC')">Toggle Manual Take Off</button>
             </div>
+            <div id="savepidbutton" class="savepidbutton">
+                <button type="button" id="pidsave" name="50" class="savepidon" onclick="sendctrlcommand(name, 'SPD')">Save PID Settings</button>
+            </div>
             <div id="rdcbutton" class="rdcbutton">
                 <button type="button" name="50" class="sendrdc" onclick="sendctrlcommand(name, 'RDC')">RDC</button>
             </div>
@@ -465,6 +495,13 @@
                                 break;
                             case "S":
                                 document.getElementById("Start_State").innerHTML = sentData[2];
+                                // start state is 0 save pid is enabled
+                                const el = document.getElementById('pidsave');
+                                if(sentData[2] == 0) {
+                                    el.className = 'savepidon';
+                                } else {
+                                    el.className = 'savepidoff';
+                                }
                                 break;
                             case "K":
                                 document.getElementById("Takeoff_Throttle").innerHTML = sentData[2];
@@ -595,10 +632,19 @@
             }
 
             function sendctrlcommand(name, ctrlVal) {
-                try {
-                    socket.send(name + ":" + ctrlVal);
-                } catch (e) {
-                    socket.onerror(e);
+                let sendcommand = 1;
+                if(ctrlVal == 'SPD') {
+                    let doPIDSave = document.getElementById("Start_State").innerHTML;
+                    if(doPIDSave != 0) {
+                        sendcommand = 0;
+                    }
+                }
+                if(sendcommand == 1) {
+                    try {
+                        socket.send(name + ":" + ctrlVal);
+                    } catch (e) {
+                        socket.onerror(e);
+                    }
                 }
             }
 

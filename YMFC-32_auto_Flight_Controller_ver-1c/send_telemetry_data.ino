@@ -12,124 +12,124 @@ void send_telemetry_data(void) {
   if (telemetry_loop_counter == 4)telemetry_send_byte = flight_mode;                        //Send the flight mode as a byte.
   if (telemetry_loop_counter == 5)telemetry_send_byte = debug_byte;                         //Send the debug_byte as a byte.
   if (telemetry_loop_counter == 6) {
-  telemetry_receive_byte = temperature;                                                    //Store the temperature as it can change during the next loop.
-  telemetry_send_byte = telemetry_receive_byte;                                            //Send the first 8 bytes of the temperature variable.
+  telemetry_save_byte = temperature;                                                    //Store the temperature as it can change during the next loop.
+  telemetry_send_byte = telemetry_save_byte;                                            //Send the first 8 bytes of the temperature variable.
   }
-  if (telemetry_loop_counter == 7)telemetry_send_byte = telemetry_receive_byte >> 8;         //Send the last 8 bytes of the temperature variable.
+  if (telemetry_loop_counter == 7)telemetry_send_byte = telemetry_save_byte >> 8;         //Send the last 8 bytes of the temperature variable.
   if (telemetry_loop_counter == 8)telemetry_send_byte = angle_roll + 100;                   //Send the roll angle as a byte. Adding 100 prevents negative numbers.
   if (telemetry_loop_counter == 9)telemetry_send_byte = angle_pitch + 100;                  //Send the pitch angle as a byte. Adding 100 prevents negative numbers.
   if (telemetry_loop_counter == 10)telemetry_send_byte = start;                             //Send the error as a byte.
   if (telemetry_loop_counter == 11) {
   if (start == 2) {                                                                       //Only send the altitude when the quadcopter is flying.
-    telemetry_receive_byte = 1000 + ((ground_pressure - actual_pressure) * 0.0842);        //Calculate the altitude and add 1000 to prevent negative numbers.
+    telemetry_save_byte = 1000 + ((ground_pressure - actual_pressure) * 0.0842);        //Calculate the altitude and add 1000 to prevent negative numbers.
   }
   else {
-    telemetry_receive_byte = 1000;                                                         //Send and altitude of 0 meters if the quadcopter isn't flying.
+    telemetry_save_byte = 1000;                                                         //Send and altitude of 0 meters if the quadcopter isn't flying.
   }
-  telemetry_send_byte = telemetry_receive_byte;                                            //Send the first 8 bytes of the altitude variable.
+  telemetry_send_byte = telemetry_save_byte;                                            //Send the first 8 bytes of the altitude variable.
   }
-  if (telemetry_loop_counter == 12)telemetry_send_byte = telemetry_receive_byte >> 8;        //Send the last 8 bytes of the altitude variable.
+  if (telemetry_loop_counter == 12)telemetry_send_byte = telemetry_save_byte >> 8;        //Send the last 8 bytes of the altitude variable.
 
   if (telemetry_loop_counter == 13) {
-  telemetry_receive_byte = 1500 + takeoff_throttle;                                        //Store the take-off throttle as it can change during the next loop.
-  telemetry_send_byte = telemetry_receive_byte;                                            //Send the first 8 bytes of the take-off throttle variable.
+  telemetry_save_byte = 1500 + takeoff_throttle;                                        //Store the take-off throttle as it can change during the next loop.
+  telemetry_send_byte = telemetry_save_byte;                                            //Send the first 8 bytes of the take-off throttle variable.
   }
-  if (telemetry_loop_counter == 14)telemetry_send_byte = telemetry_receive_byte >> 8;        //Send the last 8 bytes of the take-off throttle variable.
+  if (telemetry_loop_counter == 14)telemetry_send_byte = telemetry_save_byte >> 8;        //Send the last 8 bytes of the take-off throttle variable.
   if (telemetry_loop_counter == 15) {
-  telemetry_receive_byte = angle_yaw;                                                      //Store the compass heading as it can change during the next loop.
-  telemetry_send_byte = telemetry_receive_byte;                                            //Send the first 8 bytes of the compass heading variable.
+  telemetry_save_byte = angle_yaw;                                                      //Store the compass heading as it can change during the next loop.
+  telemetry_send_byte = telemetry_save_byte;                                            //Send the first 8 bytes of the compass heading variable.
   }
-  if (telemetry_loop_counter == 16)telemetry_send_byte = telemetry_receive_byte >> 8;        //Send the last 8 bytes of the compass heading variable.
+  if (telemetry_loop_counter == 16)telemetry_send_byte = telemetry_save_byte >> 8;        //Send the last 8 bytes of the compass heading variable.
   if (telemetry_loop_counter == 17)telemetry_send_byte = heading_lock;                      //Send the heading_lock variable as a byte.
   if (telemetry_loop_counter == 18)telemetry_send_byte = number_used_sats;                  //Send the number_used_sats variable as a byte.
   if (telemetry_loop_counter == 19)telemetry_send_byte = fix_type;                          //Send the fix_type variable as a byte.
   if (telemetry_loop_counter == 20) {
-  telemetry_receive_byte = l_lat_gps;                                                      //Store the latitude position as it can change during the next loop.
-  telemetry_send_byte = telemetry_receive_byte;                                            //Send the first 8 bytes of the latitude position variable.
+  telemetry_save_byte = l_lat_gps;                                                      //Store the latitude position as it can change during the next loop.
+  telemetry_send_byte = telemetry_save_byte;                                            //Send the first 8 bytes of the latitude position variable.
   }
-  if (telemetry_loop_counter == 21)telemetry_send_byte = telemetry_receive_byte >> 8;        //Send the next 8 bytes of the latitude position variable.
-  if (telemetry_loop_counter == 22)telemetry_send_byte = telemetry_receive_byte >> 16;       //Send the next 8 bytes of the latitude position variable.
-  if (telemetry_loop_counter == 23)telemetry_send_byte = telemetry_receive_byte >> 24;       //Send the next 8 bytes of the latitude position variable.
+  if (telemetry_loop_counter == 21)telemetry_send_byte = telemetry_save_byte >> 8;        //Send the next 8 bytes of the latitude position variable.
+  if (telemetry_loop_counter == 22)telemetry_send_byte = telemetry_save_byte >> 16;       //Send the next 8 bytes of the latitude position variable.
+  if (telemetry_loop_counter == 23)telemetry_send_byte = telemetry_save_byte >> 24;       //Send the next 8 bytes of the latitude position variable.
   if (telemetry_loop_counter == 24) {
-  telemetry_receive_byte = l_lon_gps;                                                      //Store the longitude position as it can change during the next loop.
-  telemetry_send_byte = telemetry_receive_byte;                                            //Send the first 8 bytes of the longitude position variable.
+  telemetry_save_byte = l_lon_gps;                                                      //Store the longitude position as it can change during the next loop.
+  telemetry_send_byte = telemetry_save_byte;                                            //Send the first 8 bytes of the longitude position variable.
   }
-  if (telemetry_loop_counter == 25)telemetry_send_byte = telemetry_receive_byte >> 8;        //Send the next 8 bytes of the longitude position variable.
-  if (telemetry_loop_counter == 26)telemetry_send_byte = telemetry_receive_byte >> 16;       //Send the next 8 bytes of the longitude position variable.
-  if (telemetry_loop_counter == 27)telemetry_send_byte = telemetry_receive_byte >> 24;       //Send the next 8 bytes of the longitude position variable.
+  if (telemetry_loop_counter == 25)telemetry_send_byte = telemetry_save_byte >> 8;        //Send the next 8 bytes of the longitude position variable.
+  if (telemetry_loop_counter == 26)telemetry_send_byte = telemetry_save_byte >> 16;       //Send the next 8 bytes of the longitude position variable.
+  if (telemetry_loop_counter == 27)telemetry_send_byte = telemetry_save_byte >> 24;       //Send the next 8 bytes of the longitude position variable.
   
   if (telemetry_loop_counter == 28) {
-  telemetry_receive_byte = loop_timer_capture;                                                     //Store the latitude position as it can change during the next loop.
-  telemetry_send_byte = telemetry_receive_byte;                                            //Send the first 8 bytes of the latitude position variable.
+  telemetry_save_byte = loop_timer_capture;                                                     //Store the latitude position as it can change during the next loop.
+  telemetry_send_byte = telemetry_save_byte;                                            //Send the first 8 bytes of the latitude position variable.
   }
-  if (telemetry_loop_counter == 29)telemetry_send_byte = telemetry_receive_byte >> 8;        //Send the next 8 bytes of the latitude position variable.
-  if (telemetry_loop_counter == 30)telemetry_send_byte = telemetry_receive_byte >> 16;       //Send the next 8 bytes of the latitude position variable.
-  if (telemetry_loop_counter == 31)telemetry_send_byte = telemetry_receive_byte >> 24;       //Send the next 8 bytes of the latitude position variable.
+  if (telemetry_loop_counter == 29)telemetry_send_byte = telemetry_save_byte >> 8;        //Send the next 8 bytes of the latitude position variable.
+  if (telemetry_loop_counter == 30)telemetry_send_byte = telemetry_save_byte >> 16;       //Send the next 8 bytes of the latitude position variable.
+  if (telemetry_loop_counter == 31)telemetry_send_byte = telemetry_save_byte >> 24;       //Send the next 8 bytes of the latitude position variable.
 
   if (telemetry_loop_counter == 32) {
-  telemetry_receive_byte = pid_p_gain_roll * 1000;                                                //Store the PID-P Roll Setting
-  telemetry_send_byte = telemetry_receive_byte;                                            
+  telemetry_save_byte = pid_p_gain_roll * 1000;                                                //Store the PID-P Roll Setting
+  telemetry_send_byte = telemetry_save_byte;
   }
-  if (telemetry_loop_counter == 33)telemetry_send_byte = telemetry_receive_byte >> 8;        
+  if (telemetry_loop_counter == 33)telemetry_send_byte = telemetry_save_byte >> 8;
 
   if (telemetry_loop_counter == 34) {
-  telemetry_receive_byte = pid_i_gain_roll * 1000;                                                //Store the PID-I Roll Setting
-  telemetry_send_byte = telemetry_receive_byte;                                            
+  telemetry_save_byte = pid_i_gain_roll * 1000;                                                //Store the PID-I Roll Setting
+  telemetry_send_byte = telemetry_save_byte;
   }
-  if (telemetry_loop_counter == 35)telemetry_send_byte = telemetry_receive_byte >> 8;        
+  if (telemetry_loop_counter == 35)telemetry_send_byte = telemetry_save_byte >> 8;
 
   if (telemetry_loop_counter == 36) {
-  telemetry_receive_byte = pid_d_gain_roll * 1000;                                                //Store the PID-D Roll Setting
-  telemetry_send_byte = telemetry_receive_byte;                                            
+  telemetry_save_byte = pid_d_gain_roll * 1000;                                                //Store the PID-D Roll Setting
+  telemetry_send_byte = telemetry_save_byte;
   }
-  if (telemetry_loop_counter == 37)telemetry_send_byte = telemetry_receive_byte >> 8;        
+  if (telemetry_loop_counter == 37)telemetry_send_byte = telemetry_save_byte >> 8;
 
   if (telemetry_loop_counter == 38) {
-  telemetry_receive_byte = pid_p_gain_yaw * 1000;                                                //Store the PID-P Yaw Setting
-  telemetry_send_byte = telemetry_receive_byte;                                            
+  telemetry_save_byte = pid_p_gain_yaw * 1000;                                                //Store the PID-P Yaw Setting
+  telemetry_send_byte = telemetry_save_byte;
   }
-  if (telemetry_loop_counter == 39)telemetry_send_byte = telemetry_receive_byte >> 8;        
+  if (telemetry_loop_counter == 39)telemetry_send_byte = telemetry_save_byte >> 8;
 
   if (telemetry_loop_counter == 40) {
-  telemetry_receive_byte = pid_i_gain_yaw * 1000;                                                //Store the PID-I Yaw Setting
-  telemetry_send_byte = telemetry_receive_byte;                                            
+  telemetry_save_byte = pid_i_gain_yaw * 1000;                                                //Store the PID-I Yaw Setting
+  telemetry_send_byte = telemetry_save_byte;
   }
-  if (telemetry_loop_counter == 41)telemetry_send_byte = telemetry_receive_byte >> 8;        
+  if (telemetry_loop_counter == 41)telemetry_send_byte = telemetry_save_byte >> 8;
 
   if (telemetry_loop_counter == 42) {
-  telemetry_receive_byte = pid_d_gain_yaw * 1000;                                                //Store the PID-D Yaw Setting
-  telemetry_send_byte = telemetry_receive_byte;                                            
+  telemetry_save_byte = pid_d_gain_yaw * 1000;                                                //Store the PID-D Yaw Setting
+  telemetry_send_byte = telemetry_save_byte;
   }
-  if (telemetry_loop_counter == 43)telemetry_send_byte = telemetry_receive_byte >> 8;        
+  if (telemetry_loop_counter == 43)telemetry_send_byte = telemetry_save_byte >> 8;
 
   if (telemetry_loop_counter == 44) {
-  telemetry_receive_byte = pid_p_gain_altitude * 1000;                                                //Store the PID-P Altitude Setting
-  telemetry_send_byte = telemetry_receive_byte;                                            
+  telemetry_save_byte = pid_p_gain_altitude * 1000;                                                //Store the PID-P Altitude Setting
+  telemetry_send_byte = telemetry_save_byte;
   }
-  if (telemetry_loop_counter == 45)telemetry_send_byte = telemetry_receive_byte >> 8;        
+  if (telemetry_loop_counter == 45)telemetry_send_byte = telemetry_save_byte >> 8;
 
   if (telemetry_loop_counter == 46) {
-  telemetry_receive_byte = pid_i_gain_altitude * 1000;                                                //Store the PID-I Altitude Setting
-  telemetry_send_byte = telemetry_receive_byte;                                            
+  telemetry_save_byte = pid_i_gain_altitude * 1000;                                                //Store the PID-I Altitude Setting
+  telemetry_send_byte = telemetry_save_byte;
   }
-  if (telemetry_loop_counter == 47)telemetry_send_byte = telemetry_receive_byte >> 8;        
+  if (telemetry_loop_counter == 47)telemetry_send_byte = telemetry_save_byte >> 8;
 
   if (telemetry_loop_counter == 48) {
-  telemetry_receive_byte = pid_d_gain_altitude * 1000;                                                //Store the PID-D Altitude Setting
-  telemetry_send_byte = telemetry_receive_byte;                                            
+  telemetry_save_byte = pid_d_gain_altitude * 1000;                                                //Store the PID-D Altitude Setting
+  telemetry_send_byte = telemetry_save_byte;
   }
-  if (telemetry_loop_counter == 49)telemetry_send_byte = telemetry_receive_byte >> 8;        
+  if (telemetry_loop_counter == 49)telemetry_send_byte = telemetry_save_byte >> 8;
 
   if (telemetry_loop_counter == 50) {
-  telemetry_receive_byte = battery_voltage * 100;                                                     //Store the Battery Voltage Setting
-  telemetry_send_byte = telemetry_receive_byte;                                            
+  telemetry_save_byte = battery_voltage * 100;                                                     //Store the Battery Voltage Setting
+  telemetry_send_byte = telemetry_save_byte;
   }
-  if (telemetry_loop_counter == 51)telemetry_send_byte = telemetry_receive_byte >> 8;
+  if (telemetry_loop_counter == 51)telemetry_send_byte = telemetry_save_byte >> 8;
   if (telemetry_loop_counter == 52) {
-    telemetry_receive_byte = manual_takeoff_throttle;                                 //Store the manual take-off setting as it can change during the next loop.
-    telemetry_send_byte = telemetry_receive_byte;                                            //Send the first 8 bytes of the manual take-off setting variable.
+    telemetry_save_byte = manual_takeoff_throttle;                                 //Store the manual take-off setting as it can change during the next loop.
+    telemetry_send_byte = telemetry_save_byte;                                            //Send the first 8 bytes of the manual take-off setting variable.
   }
-  if (telemetry_loop_counter == 53)telemetry_send_byte = telemetry_receive_byte >> 8;        //Send the last 8 bytes of the take-off throttle variable.
+  if (telemetry_loop_counter == 53)telemetry_send_byte = telemetry_save_byte >> 8;        //Send the last 8 bytes of the take-off throttle variable.
 
   // this is the last byte
   if (telemetry_loop_counter == telemetry_last_byte)telemetry_send_byte = check_byte;       //Send the check-byte (last visual number + 1)
@@ -235,6 +235,9 @@ void process_telemetry_data(void) {
           } else {
             manual_takeoff_throttle = 1500;
           }
+      break;
+      case 11:
+          pid_save = 1;
       break;
       case 99:
           rdc_start = 1;
