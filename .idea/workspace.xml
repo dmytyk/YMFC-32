@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0321ff8-f792-45b6-a55f-a56382f2a819" name="Changes" comment="Added ability to save the PID parmeters if they are changed.">
+    <list default="true" id="e0321ff8-f792-45b6-a55f-a56382f2a819" name="Changes" comment="Corrected Name">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -97,6 +97,8 @@
       <workItem from="1650045562408" duration="135000" />
       <workItem from="1650046829929" duration="60000" />
       <workItem from="1650247100671" duration="2000" />
+      <workItem from="1650254109798" duration="107000" />
+      <workItem from="1650318790906" duration="108000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1649624029814</created>
@@ -217,7 +219,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650046877343</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Corrected Name">
+      <created>1650254196732</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1650254196732</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -248,6 +257,7 @@
     <MESSAGE value="Removed event from javascript" />
     <MESSAGE value="Updated html page to generate alarm sounds for a low battery" />
     <MESSAGE value="Added ability to save the PID parmeters if they are changed." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added ability to save the PID parmeters if they are changed." />
+    <MESSAGE value="Corrected Name" />
+    <option name="LAST_COMMIT_MESSAGE" value="Corrected Name" />
   </component>
 </project>
