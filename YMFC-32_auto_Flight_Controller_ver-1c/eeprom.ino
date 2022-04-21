@@ -1,20 +1,20 @@
 //defines the writeEEPROM function
-void writeEEPROM(int deviceaddress, unsigned int eeaddress, byte data ) {
+void writeEEPROM(int16_t deviceaddress, uint16_t eeaddress, uint8_t data ) {
   HWire.beginTransmission(deviceaddress);
-  HWire.write((int)(eeaddress >> 8)); //writes the MSB
-  HWire.write((int)(eeaddress & 0xFF)); //writes the LSB
+  HWire.write((int16_t)(eeaddress >> 8)); //writes the MSB
+  HWire.write((int16_t)(eeaddress & 0xFF)); //writes the LSB
   HWire.write(data);
   HWire.endTransmission();
   delay(10);
 }
 
 //defines the readEEPROM function
-byte readEEPROM(int deviceaddress, unsigned int eeaddress ) {
-  byte rdata = 0xFF;
+uint8_t readEEPROM(int deviceaddress, uint16_t eeaddress ) {
+  uint8_t rdata = 0xFF;
   
   HWire.beginTransmission(deviceaddress);
-  HWire.write((int)(eeaddress >> 8)); //writes the MSB
-  HWire.write((int)(eeaddress & 0xFF)); //writes the LSB
+  HWire.write((int16_t)(eeaddress >> 8)); //writes the MSB
+  HWire.write((int16_t)(eeaddress & 0xFF)); //writes the LSB
   HWire.endTransmission();
   HWire.requestFrom(deviceaddress,1);
   if (HWire.available()) {
@@ -22,6 +22,14 @@ byte readEEPROM(int deviceaddress, unsigned int eeaddress ) {
   }
   delay(10);
   return rdata;
+}
+
+// initialize the EEPROM
+void initEEprom(void) {
+    writeEEPROM(eeprom_address, 100, 'Y');
+    writeEEPROM(eeprom_address, 101, 'M');
+    writeEEPROM(eeprom_address, 102, 'F');
+    writeEEPROM(eeprom_address, 103, 'C');
 }
 
 // save the calibration data

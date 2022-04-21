@@ -30,21 +30,21 @@ TwoWire HWire (2, I2C_FAST_MODE);          //Initiate I2C port 2 at 400kHz.
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//PID gain and limit settings  - these are defaults if the EEPROM data is not available
+//PID gain and limit settings  - these are defaults settings
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                            //Yaw
+                                            //Yaw - Defaults
 float pid_p_gain_yaw = 4.0;                //Gain setting for the pitch P-controller (default = 4.0) - Pre GPS - 3.2
 float pid_i_gain_yaw = 0.02;               //Gain setting for the pitch I-controller (default = 0.02) - Pre GPS - .02
 float pid_d_gain_yaw = 0.00;                //Gain setting for the pitch D-controller (default = 0.0) - Pre GPS - .02
 int pid_max_yaw = 400;                     //Maximum output of the PID-controller (+/-).
 
-                                           // Alititude
-float pid_p_gain_altitude = 1.8;           //Gain setting for the altitude P-controller (default = 1.4) - Pre GPS - 2.1
-float pid_i_gain_altitude = .25;            //Gain setting for the altitude I-controller (default = 0.2) - Pre GPS - 0.4
-float pid_d_gain_altitude = .9;             //Gain setting for the altitude D-controller (default = 0.75) - Pre GPS - 1
+                                           // Alititude - Defaults
+float pid_p_gain_altitude = 1.6;           //Gain setting for the altitude P-controller (default = 1.4) - Pre GPS - 2.1
+float pid_i_gain_altitude = .25;           //Gain setting for the altitude I-controller (default = 0.2) - Pre GPS - 0.4
+float pid_d_gain_altitude = .8;             //Gain setting for the altitude D-controller (default = 0.75) - Pre GPS - 1
 int pid_max_altitude = 400;                //Maximum output of the PID-controller (+/-).
 
-                                            //Roll
+                                            //Roll - Defaults
 float pid_p_gain_roll = 1.3;               //Gain setting for the pitch and roll P-controller (default = 1.3) - Pre GPS - 2.0
 float pid_i_gain_roll = 0.04;              //Gain setting for the pitch and roll I-controller (default = 0.04) - Pre GPS - .04
 float pid_d_gain_roll = 18.0;              //Gain setting for the pitch and roll D-controller (default = 18.0) - Pre GPS - 16
@@ -200,7 +200,6 @@ uint32_t gps_watchdog_timer;
 
 //EEPROM
 uint8_t pid_save;
-uint8_t eeprom_write_byte;
 uint32_t eeprom_save_byte;
 
 //RDC (Remote Drop Control) - 1950 is the init value and 1320 is the open value (count between closed and open is 1950-1320 = 630)
@@ -239,18 +238,29 @@ void setup() {
   rdc_loop_count = 1;
   rdc_servoPos = 1950;
 
-  pid_save = 0;                                                 //set the PID vars
-
   timer_setup();                                                //Setup the timers for the receiver inputs and ESC's output.
   delay(50);                                                    //Give the timers some time to start.
   
   HWire.begin(); 
-  delay(100);                                                    //Give the timers some time to start.
+  delay(150);                                                    //Give IC2 time to start
 
-  //initial PID save
+//  init EEPROM (save YMFC-32 signature) and initial save of the PID defaults
+//  make sure the YMFC32 is powered on
+//  initEEprom();
 //  savePIDY();
 //  savePIDA();
 //  savePIDR();
+
+  // see if the EEPROM is present and it has been initialized 
+  if(readEEPROM(eeprom_address, 100) != 'Y'|| readEEPROM(eeprom_address, 101) != 'M' || readEEPROM(eeprom_address, 102) != 'F' || readEEPROM(eeprom_address, 103) != 'C') {
+    while (1) {                                                   //Stay in this loop because the EEPROM has not been initialized or did not respond.
+      error = 10;                                                  //Set the error status to 10.
+      error_signal();                                             //Show the error via the red LED.
+      delay(4);                                                   //Simulate a 250Hz refresh rate as like the main loop.
+    }
+  }
+
+  pid_save = 0;                                                 //set the PID save var to: 0 = tells loop to do nothing, 1 = tells loop to save the PID settings
 
   // load the Saved PID settings
   //Yaw - PID
@@ -298,7 +308,7 @@ void setup() {
     error_signal();                                             //Show the error via the red LED.
     delay(4);                                                   //Simulate a 250Hz refresh rate as like the main loop.
   }
-
+  
   gyro_setup();                                                 //Initiallize the gyro and set the correct registers.
   setup_compass();                                              //Initiallize the compass and set the correct registers.
   read_compass();                                               //Read and calculate the compass data.
@@ -417,8 +427,10 @@ void loop() {
   if (start == 0) {
     //For compass calibration move both sticks to the top right.
     if (channel_1 > 1900 && channel_2 < 1100 && channel_3 > 1900 && channel_4 > 1900)calibrate_compass();
+    
     //Level calibration move both sticks to the top left.
     if (channel_1 < 1100 && channel_2 < 1100 && channel_3 > 1900 && channel_4 < 1100)calibrate_level();
+    
     //See if we have been requested to save the PID settings
     if(pid_save == 1) {
       savePIDY();
