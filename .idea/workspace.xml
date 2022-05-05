@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0321ff8-f792-45b6-a55f-a56382f2a819" name="Changes" comment="Correct Names">
+    <list default="true" id="e0321ff8-f792-45b6-a55f-a56382f2a819" name="Changes" comment="Updated EEPROM code, Boot detection and unit types.">
+      <change afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/remote_drop_control.ino" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/YMFC-32_auto_Flight_Controller_ver-1c.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/YMFC-32_auto_Flight_Controller_ver-1c.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/read_gps.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/read_gps.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/timer_setup.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/timer_setup.ino" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,6 +109,8 @@
       <workItem from="1650389192142" duration="704000" />
       <workItem from="1650482610170" duration="2799000" />
       <workItem from="1650487157010" duration="108000" />
+      <workItem from="1650509083484" duration="78000" />
+      <workItem from="1651711906713" duration="127000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1649624029814</created>
@@ -260,7 +266,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650485201359</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Updated EEPROM code, Boot detection and unit types.">
+      <created>1650509150298</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1650509150298</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -293,6 +306,7 @@
     <MESSAGE value="Added ability to save the PID parmeters if they are changed." />
     <MESSAGE value="Corrected Name" />
     <MESSAGE value="Correct Names" />
-    <option name="LAST_COMMIT_MESSAGE" value="Correct Names" />
+    <MESSAGE value="Updated EEPROM code, Boot detection and unit types." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated EEPROM code, Boot detection and unit types." />
   </component>
 </project>

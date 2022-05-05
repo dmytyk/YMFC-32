@@ -32,13 +32,14 @@ void timer_setup(void) {
   TIMER3_BASE->CCMR2 = (0b110 << 4) | TIMER_CCMR2_OC3PE |(0b110 << 12) | TIMER_CCMR2_OC4PE;
   TIMER3_BASE->CCER = TIMER_CCER_CC1E | TIMER_CCER_CC2E | TIMER_CCER_CC3E | TIMER_CCER_CC4E;
   TIMER3_BASE->PSC = 71;
-  TIMER3_BASE->ARR = 50000; //(normally this is 5000 for a 250hz loop, I set it to 50000 for a 50hz loop to run servos)
+  TIMER3_BASE->ARR = 50000; //(I set it to 50000 for a 50hz loop to run servos)
   TIMER3_BASE->DCR = 0;
   TIMER3_BASE->CCR1 = 1000;
 
   TIMER3_BASE->CCR3 = 1950;
   pinMode(PB0, PWM);
 
+  // Electronic Speed Controller (ESC)
   TIMER4_BASE->CR1 = TIMER_CR1_CEN | TIMER_CR1_ARPE;
   TIMER4_BASE->CR2 = 0;
   TIMER4_BASE->SMCR = 0;

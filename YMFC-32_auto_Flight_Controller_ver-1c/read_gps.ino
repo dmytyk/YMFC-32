@@ -26,7 +26,6 @@ void gps_setup(void) {
 }
 
 void read_gps(void) {
-//  int index;
   while (Serial1.available() && new_line_found == 0) {                                                   //Stay in this loop as long as there is serial information from the GPS available.
     char read_serial_byte = Serial1.read();                                                              //Load a new serial byte in the read_serial_byte variable.
     if (read_serial_byte == '$') {                                                                       //If the new byte equals a $ character.
@@ -39,17 +38,6 @@ void read_gps(void) {
     incomming_message[message_counter] = read_serial_byte;                                               //Write the new received byte to the new position in the incomming_message array.
     if (read_serial_byte == '*') { 
       new_line_found = 1;                                                     //Every NMEA line end with a *. If this character is detected the new_line_found variable is set to 1.
-//      incomming_message[message_counter + 1] = 0; 
-//      Serial.print("GPS Line: ");
-//      for(index = 0; index < 100; index++) {
-//        read_serial_byte = incomming_message[index];
-//        if(read_serial_byte != 0) {
-//          Serial.print(read_serial_byte);
-//        } else {
-//          index = 100;
-//        }  
-//      }
-//      Serial.println();
     }
   }
 
@@ -57,7 +45,6 @@ void read_gps(void) {
   if (new_line_found == 1) {                                                                             //If a new NMEA line is found.
     new_line_found = 0;                                                                                  //Reset the new_line_found variable for the next line.
     if (incomming_message[4] == 'L' && incomming_message[5] == 'L' && incomming_message[7] == ',') {     //When there is no GPS fix or latitude/longitude information available.
-//      Serial.println("GPS No Fix: ");
       digitalWrite(STM32_board_LED, !digitalRead(STM32_board_LED));                                      //Change the LED on the STM32 to indicate GPS reception.
       //Set some variables to 0 if no valid information is found by the GPS module. This is needed for GPS lost when flying.
       l_lat_gps = 0;
@@ -68,7 +55,6 @@ void read_gps(void) {
     }
     //If the line starts with GA and if there is a GPS fix we can scan the line for the latitude, longitude and number of satellites.
     if (incomming_message[4] == 'G' && incomming_message[5] == 'A' && (incomming_message[44] == '1' || incomming_message[44] == '2')) {
-//      Serial.println("GPS Data: ");
       lat_gps_actual = ((int)incomming_message[19] - 48) *  (long)10000000;                              //Filter the minutes for the GGA line multiplied by 10.
       lat_gps_actual += ((int)incomming_message[20] - 48) * (long)1000000;                               //Filter the minutes for the GGA line multiplied by 10.
       lat_gps_actual += ((int)incomming_message[22] - 48) * (long)100000;                                //Filter the minutes for the GGA line multiplied by 10.
