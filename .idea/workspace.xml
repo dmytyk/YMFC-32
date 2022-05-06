@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0321ff8-f792-45b6-a55f-a56382f2a819" name="Changes" comment="Updated EEPROM code, Boot detection and unit types.">
-      <change afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/remote_drop_control.ino" afterDir="false" />
+    <list default="true" id="e0321ff8-f792-45b6-a55f-a56382f2a819" name="Changes" comment="MOved RDC to it's own tab">
+      <change afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/return_to_home.ino" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/YMFC-32_auto_Flight_Controller_ver-1c.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/YMFC-32_auto_Flight_Controller_ver-1c.ino" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/read_gps.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/read_gps.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/timer_setup.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/timer_setup.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/send_telemetry_data.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/send_telemetry_data.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/start_stop_takeoff.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_Flight_Controller_ver-1c/start_stop_takeoff.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/YMFC-32_auto_telemetry_receiver_ver-1c.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/YMFC-32_auto_telemetry_receiver_ver-1c.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/send_terminal_data.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/send_terminal_data.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/sendwebpage_data.ino" beforeDir="false" afterPath="$PROJECT_DIR$/YMFC-32_auto_telemetry_receiver_ver-1c/sendwebpage_data.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpage.html" beforeDir="false" afterPath="$PROJECT_DIR$/webpage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpage.html.gz" beforeDir="false" afterPath="$PROJECT_DIR$/webpage.html.gz" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,6 +117,11 @@
       <workItem from="1650487157010" duration="108000" />
       <workItem from="1650509083484" duration="78000" />
       <workItem from="1651711906713" duration="127000" />
+      <workItem from="1651713330576" duration="212000" />
+      <workItem from="1651720359239" duration="1425000" />
+      <workItem from="1651721943393" duration="30000" />
+      <workItem from="1651722698331" duration="222000" />
+      <workItem from="1651723030434" duration="739000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1649624029814</created>
@@ -273,7 +284,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650509150298</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="MOved RDC to it's own tab">
+      <created>1651713364564</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1651713364564</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -307,6 +325,7 @@
     <MESSAGE value="Corrected Name" />
     <MESSAGE value="Correct Names" />
     <MESSAGE value="Updated EEPROM code, Boot detection and unit types." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated EEPROM code, Boot detection and unit types." />
+    <MESSAGE value="MOved RDC to it's own tab" />
+    <option name="LAST_COMMIT_MESSAGE" value="MOved RDC to it's own tab" />
   </component>
 </project>

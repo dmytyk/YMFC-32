@@ -54,4 +54,7 @@ void webpage_data(void){
 
     // Manual Takeoff Setting
     webSocketServer.sendData("D:0:" + String(manual_takeoff));
+
+    // Return To Home
+    webSocketServer.sendData("D:Z:" + String(return_to_home_command));
 }

@@ -20,7 +20,7 @@ TwoWire HWire (2, I2C_FAST_MODE);          //Initiate I2C port 2 at 400kHz.
 // Buffer Constant Both sides must Match
 #ifndef Receive_Buffer_Size
     // Receiver Buffer Size 
-    #define Receive_Buffer_Size   54
+    #define Receive_Buffer_Size   55
 #endif
 
 // Buffer Constant Both sides must Match
@@ -123,8 +123,8 @@ int16_t temperature, count_var;
 int16_t acc_x, acc_y, acc_z;
 int16_t gyro_pitch, gyro_roll, gyro_yaw;
 
-int32_t channel_1_start, channel_1, pid_roll_setpoint_base;
-int32_t channel_2_start, channel_2, pid_pitch_setpoint_base;
+int32_t channel_1_start, channel_1, channel_1_base, pid_roll_setpoint_base;
+int32_t channel_2_start, channel_2, channel_2_base, pid_pitch_setpoint_base;
 int32_t channel_3_start, channel_3;
 int32_t channel_4_start, channel_4;
 int32_t channel_5_start, channel_5;
@@ -170,7 +170,7 @@ uint8_t barometer_counter, temperature_counter, average_temperature_mem_location
 int64_t OFF, OFF_C2, SENS, SENS_C1, P;
 uint32_t raw_pressure, raw_temperature, temp, raw_temperature_rotating_memory[6], raw_average_temperature_total;
 float actual_pressure, actual_pressure_slow, actual_pressure_fast, actual_pressure_diff;
-float ground_pressure, altutude_hold_pressure;
+float ground_pressure, altutude_hold_pressure, return_to_home_decrease;
 int32_t dT, dT_C5;
 //Altitude PID variables
 float pid_i_mem_altitude, pid_altitude_setpoint, pid_altitude_input, pid_output_altitude, pid_last_altitude_d_error;
@@ -191,12 +191,18 @@ int32_t lat_gps_actual, lon_gps_actual, l_lat_waypoint, l_lon_waypoint;
 float gps_pitch_adjust_north, gps_pitch_adjust, gps_roll_adjust_north, gps_roll_adjust;
 float lat_gps_loop_add, lon_gps_loop_add, lat_gps_add, lon_gps_add;
 uint8_t new_line_found, new_gps_data_available, new_gps_data_counter;
-uint8_t gps_rotating_mem_location;
+uint8_t gps_rotating_mem_location, return_to_home_step;
 int32_t gps_lat_total_avarage, gps_lon_total_avarage;
 int32_t gps_lat_rotating_mem[40], gps_lon_rotating_mem[40];
 int32_t gps_lat_error, gps_lon_error;
 int32_t gps_lat_error_previous, gps_lon_error_previous;
 uint32_t gps_watchdog_timer;
+
+// Return to Home
+float l_lon_gps_float_adjust, l_lat_gps_float_adjust, gps_man_adjust_heading;
+float return_to_home_lat_factor, return_to_home_lon_factor, return_to_home_move_factor;
+uint8_t home_point_recorded, return_to_home_command;
+int32_t lat_gps_home, lon_gps_home;
 
 //EEPROM
 uint8_t pid_save;
@@ -237,6 +243,8 @@ void setup() {
   rdc_delay = 0;
   rdc_loop_count = 1;
   rdc_servoPos = 1950;
+
+  return_to_home_command = 0;                                   //reset return to home to off
 
   timer_setup();                                                //Setup the timers for the receiver inputs and ESC's output.
   delay(50);                                                    //Give the timers some time to start.
@@ -365,7 +373,7 @@ void setup() {
   }
   actual_pressure = 0;                                          //Reset the pressure calculations.
 
-  //Before starting the avarage accelerometer value is preloaded into the variables.
+  //Before starting the average accelerometer value is preloaded into the variables.
   for (start = 0; start <= 24; start++)acc_z_average_short[start] = acc_z;
   for (start = 0; start <= 49; start++)acc_z_average_long[start] = acc_z;
   acc_z_average_short_total = acc_z * 25;
@@ -404,7 +412,18 @@ void loop() {
   flight_mode = 1;                                                                 //In all other situations the flight mode is 1;
   if (channel_5 >= 1200 && channel_5 < 1600)flight_mode = 2;                       //If channel 6 is between 1200us and 1600us the flight mode is 2
   if (channel_5 >= 1600 && channel_5 < 2100)flight_mode = 3;                       //If channel 6 is between 1600us and 1900us the flight mode is 3
+  if (return_to_home_command == 1) {
+    if (waypoint_set == 1 && home_point_recorded == 1 && start == 2)flight_mode = 4;
+    else flight_mode = 3;
+  }
 
+  if (flight_mode <= 3) {
+    return_to_home_step = 0;
+    return_to_home_lat_factor = 0;
+    return_to_home_lon_factor = 0;
+  }
+
+  return_to_home();                                                                //Jump to the return to home step program.
   process_rdc();                                                                   //Process Remote Drop Control
   flight_mode_signal();                                                            //Show the flight_mode via the green LED.
   error_signal();                                                                  //Show the error via the red LED.
@@ -463,21 +482,27 @@ void loop() {
 
   vertical_acceleration_calculations();                                            //Calculate the vertical accelration.
 
-  pid_roll_setpoint_base = channel_1;                                              //Normally channel_1 is the pid_roll_setpoint input.
-  pid_pitch_setpoint_base = channel_2;                                             //Normally channel_2 is the pid_pitch_setpoint input.
+  channel_1_base = channel_1;                                                      //Normally channel_1 is the pid_roll_setpoint input.
+  channel_2_base = channel_2;                                                      //Normally channel_2 is the pid_pitch_setpoint input.
+  gps_man_adjust_heading = angle_yaw;                                              //
   //When the heading_lock mode is activated the roll and pitch pid setpoints are heading dependent.
   //At startup the heading is registerd in the variable course_lock_heading.
-  //First the course deviation is calculated between the current heading and the course_lock_heading is calculated.
+  //First the course deviation is calculated between the current heading and the course_lock_heading.
   //Based on this deviation the pitch and roll controls are calculated so the responce is the same as on startup.
   if (heading_lock == 1) {
     heading_lock_course_deviation = course_deviation(angle_yaw, course_lock_heading);
-    pid_roll_setpoint_base = 1500 + ((float)(channel_1 - 1500) * cos(heading_lock_course_deviation * 0.017453)) + ((float)(channel_2 - 1500) * cos((heading_lock_course_deviation - 90) * 0.017453));
-    pid_pitch_setpoint_base = 1500 + ((float)(channel_2 - 1500) * cos(heading_lock_course_deviation * 0.017453)) + ((float)(channel_1 - 1500) * cos((heading_lock_course_deviation + 90) * 0.017453));
-  }
+    channel_1_base = 1500 + ((float)(channel_1 - 1500) * cos(heading_lock_course_deviation * 0.017453)) + ((float)(channel_2 - 1500) * cos((heading_lock_course_deviation - 90) * 0.017453));
+    channel_2_base = 1500 + ((float)(channel_2 - 1500) * cos(heading_lock_course_deviation * 0.017453)) + ((float)(channel_1 - 1500) * cos((heading_lock_course_deviation + 90) * 0.017453));
+    gps_man_adjust_heading = course_lock_heading;
 
+  }
   if (flight_mode >= 3 && waypoint_set == 1) {
-    pid_roll_setpoint_base += gps_roll_adjust;
-    pid_pitch_setpoint_base += gps_pitch_adjust;
+    pid_roll_setpoint_base = 1500 + gps_roll_adjust;
+    pid_pitch_setpoint_base = 1500 + gps_pitch_adjust;
+  }
+  else {
+    pid_roll_setpoint_base = channel_1_base;
+    pid_pitch_setpoint_base = channel_2_base;
   }
 
   //Because we added the GPS adjust values we need to make sure that the control limits are not exceded.

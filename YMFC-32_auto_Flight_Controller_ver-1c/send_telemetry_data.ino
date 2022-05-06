@@ -9,7 +9,7 @@ void send_telemetry_data(void) {
   if (telemetry_loop_counter == 3) {
     telemetry_send_byte = error;                                                              //Send the error as a byte.
   }
-  if (telemetry_loop_counter == 4)telemetry_send_byte = flight_mode;                        //Send the flight mode as a byte.
+  if (telemetry_loop_counter == 4)telemetry_send_byte = flight_mode + return_to_home_step;                        //Send the flight mode as a byte.
   if (telemetry_loop_counter == 5)telemetry_send_byte = debug_byte;                         //Send the debug_byte as a byte.
   if (telemetry_loop_counter == 6) {
   telemetry_save_byte = temperature;                                                    //Store the temperature as it can change during the next loop.
@@ -131,6 +131,8 @@ void send_telemetry_data(void) {
   }
   if (telemetry_loop_counter == 53)telemetry_send_byte = telemetry_save_byte >> 8;        //Send the last 8 bytes of the take-off throttle variable.
 
+  if (telemetry_loop_counter == 54)telemetry_send_byte = return_to_home_command;                         //Send the return to home button status.
+
   // this is the last byte
   if (telemetry_loop_counter == telemetry_last_byte)telemetry_send_byte = check_byte;       //Send the check-byte (last visual number + 1)
 
@@ -238,6 +240,13 @@ void process_telemetry_data(void) {
       break;
       case 11:
           pid_save = 1;
+      break;
+      case 12:
+          if(return_to_home_command == 1) {
+            return_to_home_command = 0;
+          } else {
+            return_to_home_command = 1;
+          }
       break;
       case 99:
           rdc_start = 1;

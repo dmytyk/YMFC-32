@@ -148,6 +148,42 @@ void read_gps(void) {
     }
 
     if (flight_mode >= 3 && waypoint_set == 1) {                                                          //If the GPS hold mode and the waypoints are stored.
+      //GPS stick move adjustments
+      if (flight_mode == 3 && takeoff_detected == 1) {
+        if (!latitude_north) {
+          l_lat_gps_float_adjust += 0.0015 * (((channel_2 - 1500) * cos(gps_man_adjust_heading * 0.017453)) + ((channel_1 - 1500) * cos((gps_man_adjust_heading - 90) * 0.017453))); //South correction
+        }
+        else {
+          l_lat_gps_float_adjust -= 0.0015 * (((channel_2 - 1500) * cos(gps_man_adjust_heading * 0.017453)) + ((channel_1 - 1500) * cos((gps_man_adjust_heading - 90) * 0.017453))); //North correction
+        }
+
+        if (!longiude_east) {
+          l_lon_gps_float_adjust -= (0.0015 * (((channel_1 - 1500) * cos(gps_man_adjust_heading * 0.017453)) + ((channel_2 - 1500) * cos((gps_man_adjust_heading + 90) * 0.017453)))) / cos(((float)l_lat_gps / 1000000.0) * 0.017453); //West correction
+        }
+
+        else {
+          l_lon_gps_float_adjust += (0.0015 * (((channel_1 - 1500) * cos(gps_man_adjust_heading * 0.017453)) + ((channel_2 - 1500) * cos((gps_man_adjust_heading + 90) * 0.017453)))) / cos(((float)l_lat_gps / 1000000.0) * 0.017453); //East correction
+        }
+      }
+
+      if (l_lat_gps_float_adjust > 1) {
+        l_lat_waypoint ++;
+        l_lat_gps_float_adjust --;
+      }
+      if (l_lat_gps_float_adjust < -1) {
+        l_lat_waypoint --;
+        l_lat_gps_float_adjust ++;
+      }
+
+      if (l_lon_gps_float_adjust > 1) {
+        l_lon_waypoint ++;
+        l_lon_gps_float_adjust --;
+      }
+      if (l_lon_gps_float_adjust < -1) {
+        l_lon_waypoint --;
+        l_lon_gps_float_adjust ++;
+      }      
+      
       gps_lon_error = l_lon_waypoint - l_lon_gps;                                                         //Calculate the latitude error between waypoint and actual position.
       gps_lat_error = l_lat_gps - l_lat_waypoint;                                                         //Calculate the longitude error between waypoint and actual position.
 

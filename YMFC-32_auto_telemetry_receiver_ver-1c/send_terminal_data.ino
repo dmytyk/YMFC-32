@@ -55,6 +55,10 @@ void print_telemetry_data(void){
  Serial.print(loop_timer);
  Serial.print(", ");
 
+ Serial.print("Return to Home: ");
+ Serial.print(return_to_home_command);
+ Serial.print(", ");
+
  Serial.print("Rec Time: ");
  Serial.println(current_receive);
 }
