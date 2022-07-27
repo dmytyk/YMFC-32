@@ -34,7 +34,7 @@ WiFiClient      socketClient;
 // Console Attached
 #ifndef TerminalAttached
     // true = terminal attached (send serial messages), false = no terminal attached no messages 
-    #define TerminalAttached  true
+    #define TerminalAttached  false
 #endif
 
 // Buffer Constant Both sides must Match
@@ -80,7 +80,7 @@ int8_t page, previous_page;
 
 uint32_t current_receive, current_receive_min, current_receive_max, last_receive, next_sound, flight_timer, flight_timer_previous, flight_timer_from_start, flight_time_from_eeprom;
 uint32_t hours_flight_time, minutes_flight_time, seconds_flight_time;
-int32_t loop_timer,loop_timer_min,loop_timer_max, l_lat_gps, l_lon_gps;
+int32_t loop_timer, loop_timer_min, loop_timer_max, l_lat_gps, l_lon_gps;
 
 int16_t temperature,temperature_min,temperature_max, button_push, button_store,roll_angle,roll_angle_min,roll_angle_max, pitch_angle, pitch_angle_min, pitch_angle_max;
 int16_t altitude_meters, altitude_meters_min, altitude_meters_max;
@@ -113,6 +113,7 @@ char webpage_base64[] = "H4sICJBMc2IEAHdlYnBhZ2UuaHRtbADtXXlzwkQU/98ZvwPijNZBTbh
 
 void printWifiStatus()
 {
+  if(TerminalAttached) {
     Serial.print("SSID: "); Serial.println(WiFi.SSID());
     Serial.print("Signal strength (RSSI): "); Serial.print(WiFi.RSSI()); Serial.println(" dBm");
     Serial.print("IP address: "); Serial.println(WiFi.localIP());
@@ -120,6 +121,7 @@ void printWifiStatus()
     Serial.print("Netmask: "); Serial.println(WiFi.subnetMask());
     Serial.print("Webpage is at http://"); Serial.print(WiFi.localIP()); Serial.println("/");
     Serial.print("Websocket is at http://"); Serial.print(WiFi.localIP()); Serial.println(":" + (String)socketPort + "/");
+  }
 }
 
 void WiFiConnect() 
@@ -152,7 +154,11 @@ void WiFiConnect()
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(0, OUTPUT);                                   // Green LED
-                                                        //Set the serial output to 9600bps.
+
+  if(TerminalAttached) {  
+    Serial.begin(57600);
+    delay(5000);
+  }
   Serial1.begin(9600);  
   delay(250);  
 
@@ -166,8 +172,6 @@ void setup() {
 
   // Serial port initialization
   if(TerminalAttached) {
-     Serial.begin(57600);
-     delay(5000);
      Serial.println("\nYMFC-32 - MRK1010 Receiver/Web Server Started");
      Serial.println("Version " + String(WIFININA_GENERIC_VERSION));
 
@@ -283,7 +287,7 @@ void loop() {
     if(Backgroundinit == true) {
         Backgroundinit = false;
 
-        String data = webSocketServer.getData();
+       String data = webSocketServer.getData();
        if(TerminalAttached) {
            Serial.println("Websocket Flushed");
        }
@@ -458,6 +462,7 @@ void loop() {
     }
   }
 
+    // Background Process 2
     if(Serial1.available()) {                                                //If there are bytes available.
       receive_byte = Serial1.read();                                       //Load them in the received_buffer array.
         switch (receive_state) {
@@ -507,11 +512,13 @@ void loop() {
         }
     }
 
+  // Background Process 3
   // see if we have something to send, if so do it
   if(ready_to_send == 1) {
     send_telemetry_data();
   }
-
+  
+  // Background Process 4
   // background delay and heart beat
   if(led == 0) {
     led = 1;

@@ -15,12 +15,12 @@ void process_rdc(void) {
             rdc_delay = 0;
           }
       break;
-      // state 2 = delay for 3 seconds
+      // state 2 = delay for 5 seconds
       case 2:
         //delay
-        // we come here every 20,000 usec so 20,0000 * 150 = 3,000,000 usec or 3 secs
+        // we come here every 20,000 usec so 20,0000 * 250 = 5,000,000 usec or 5 secs
         rdc_delay++;
-        if(rdc_delay > 150) {
+        if(rdc_delay > 250) {
             rdc_start = 3;
         }
       break;

@@ -1,4 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////////////
 //Terms of use
 ///////////////////////////////////////////////////////////////////////////////////////
 //THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -14,6 +13,11 @@
 //Always remove the propellers and stay away from the motors unless you
 //are 100% certain of what you are doing.
 ///////////////////////////////////////////////////////////////////////////////////////
+
+//Add waypoints:
+// add fly_waypoints tab and vars (all)
+//DM - (do all 4 steps) 1 = set, 2 = start, 3 = do, 4 = end
+
 #include <Wire.h>                          //Include the Wire.h library so we can communicate with the gyro.
 TwoWire HWire (2, I2C_FAST_MODE);          //Initiate I2C port 2 at 400kHz.
 
@@ -66,7 +70,7 @@ float gps_d_gain = 6.5;                    //Gain setting for the GPS D-controll
 
 float declination = 2.0;                   //Set the declination between the magnetic and geographic north.
 
-int16_t manual_takeoff_throttle = 1500;    //Enter the manual hover point when auto take-off detection is not desired (between 1400 and 1600).
+int16_t manual_takeoff_throttle = 0;       //Enter the manual hover point when auto take-off detection is not desired (between 1400 and 1600).
 int16_t motor_idle_speed = 1100;           //Enter the minimum throttle pulse of the motors when they idle (between 1000 and 1200). 1170 for DJI
 
 uint8_t gyro_address = 0x68;               //The I2C address of the MPU-6050 is 0x68 in hexadecimal form.
@@ -129,7 +133,7 @@ int32_t channel_3_start, channel_3;
 int32_t channel_4_start, channel_4;
 int32_t channel_5_start, channel_5;
 int32_t channel_6_start, channel_6;
-int32_t measured_time, measured_time_start;
+int32_t measured_time, measured_time_start, receiver_watchdog;
 int32_t acc_total_vector, acc_total_vector_at_start;
 int32_t gyro_roll_cal, gyro_pitch_cal, gyro_yaw_cal;
 int16_t acc_pitch_cal_value;
@@ -389,6 +393,26 @@ void setup() {
 //Main program loop
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void loop() {
+  if(receiver_watchdog < 750 && start == 2) { 
+    receiver_watchdog ++;
+  }
+  if(receiver_watchdog == 750 && start == 2) {
+    channel_1 = 1500;
+    channel_2 = 1500;
+    channel_3 = 1500;
+    channel_4 = 1500;
+    error = 8;                                                                  //Lost contact with transmitter
+    if (number_used_sats > 5){
+      if(home_point_recorded == 1) {
+        return_to_home_command = 1;                                             //If channel 5 is between 1600us and 1900us the flight mode is 4 (we have a home point and we have sats so return to home)
+      } else {
+        channel_5 = 1750;                                                       //If channel 5 is between 1600us and 1900us the flight mode is 3 (we have sats but no home point so gps lock)                                                                                                     
+      }
+    } else { 
+      channel_5 = 1500;                                                         //If channel 5 is between 1200us and 1600us the flight mode is 2 (no sats, no home point so just hold altitude)
+    }
+  }
+  
   //Some functions are only accessible when the quadcopter is off.
   if (start == 0) {
     //For compass calibration move both sticks to the top right.
@@ -403,15 +427,26 @@ void loop() {
       savePIDA();
       savePIDR();
       pid_save = 0;
+
+      // reset the loop capture error since we took a long time to update the settings
+      error = 0;
     }
+
+    //ensure we are at the reset state
+    return_to_home_command = 0;
+    receiver_watchdog = 0;
+    home_point_recorded = 0;
+    heading_lock = 0;
   }
 
   heading_lock = 0;
-  if (channel_6 > 1200)heading_lock = 1;                                           //If channel 6 is between 1200us and 1600us the flight mode is 2
+  if (channel_6 > 1200) {
+    heading_lock = 1;                                                               //If channel 6 is between 1200us and 1600us the flight mode is 2
+  }
 
   flight_mode = 1;                                                                 //In all other situations the flight mode is 1;
-  if (channel_5 >= 1200 && channel_5 < 1600)flight_mode = 2;                       //If channel 6 is between 1200us and 1600us the flight mode is 2
-  if (channel_5 >= 1600 && channel_5 < 2100)flight_mode = 3;                       //If channel 6 is between 1600us and 1900us the flight mode is 3
+  if (channel_5 >= 1200 && channel_5 < 1600)flight_mode = 2;                       //If channel 5 is between 1200us and 1600us the flight mode is 2
+  if (channel_5 >= 1600 && channel_5 < 2100)flight_mode = 3;                       //If channel 5 is between 1600us and 1900us the flight mode is 3
   if (return_to_home_command == 1) {
     if (waypoint_set == 1 && home_point_recorded == 1 && start == 2)flight_mode = 4;
     else flight_mode = 3;

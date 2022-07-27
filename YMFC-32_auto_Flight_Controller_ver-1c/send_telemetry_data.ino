@@ -202,7 +202,6 @@ void rec_telemetry_data(void) {
 }
 
 void process_telemetry_data(void) {
-    //error = ymc32_fval;
     switch (ymc32_command) {
       case 1:
         pid_p_gain_roll = ymc32_fval;

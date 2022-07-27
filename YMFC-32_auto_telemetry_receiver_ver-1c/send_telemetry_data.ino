@@ -20,7 +20,7 @@ void send_telemetry_data(void) {
   
   if (telemetry_loop_counter == send_telemetry_last_byte)telemetry_send_byte = check_byte;  //Send the check-byte (last visual number + 1)
 
-  //After 125 loops the telemetry_loop_counter variable is reset. This way the telemetry data is send every half second.
+  // When all bytes are sent reset the send processing
   if (telemetry_loop_counter == (send_telemetry_last_byte + 1)) {
     telemetry_loop_counter = 0;                             //After 125 loops reset the telemetry_loop_counter variable
     
