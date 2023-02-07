@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e0321ff8-f792-45b6-a55f-a56382f2a819" name="Changes" comment="Updated code for Normal Telemetry Control.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="e0321ff8-f792-45b6-a55f-a56382f2a819" name="Changes" comment="Added Gerber Files." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,6 +37,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\dmyty\Documents\Arduino\YMFC-32_auto_modified_gps" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\dmyty\Documents\Arduino\YMFC-32_auto_modified_gps\Gerber_Files" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -123,6 +124,7 @@
       <workItem from="1668818306855" duration="2056000" />
       <workItem from="1668871834584" duration="1192000" />
       <workItem from="1669074422276" duration="654000" />
+      <workItem from="1675777320368" duration="238000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1649624029814</created>
@@ -299,7 +301,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658886283065</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Added Gerber Files.">
+      <created>1675777534918</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1675777534918</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -335,6 +344,7 @@
     <MESSAGE value="Updated EEPROM code, Boot detection and unit types." />
     <MESSAGE value="MOved RDC to it's own tab" />
     <MESSAGE value="Updated code for Normal Telemetry Control." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated code for Normal Telemetry Control." />
+    <MESSAGE value="Added Gerber Files." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Gerber Files." />
   </component>
 </project>

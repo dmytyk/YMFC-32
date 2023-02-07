@@ -26,6 +26,7 @@ I also made a few minor hardware changes:
 
  - I added some noise reduction capacitors and delayed boot capacitor, the boot capacitor ensures all IC2 devices are booted before the STM32 starts to run.
  - I added a switch, so I change the boot mode without having to move the jumper, my fingers are too big!
+ - I have also included the Gerber Files, I recommend using [PCBWay](https://www.pcbway.com/) to get you PCBs fast and helpful.
 
 ![YMFC-32-C Schematic](/Images/YMFC32-C_Schematic.png)
 
